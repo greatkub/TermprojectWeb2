@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Homepage from './page/Homepage';
 
+
 function App() {
   return (
     <div style={{ height: '100vh' }}>
@@ -21,7 +22,7 @@ function App() {
         </Container>
       </Navbar>
 
-      <Homepage/>
+      <Homepage />
 
       {/* <div className="box">
 
