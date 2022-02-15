@@ -1,0 +1,82 @@
+.fill-window {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+.App {
+  text-align: center;
+}
+
+.box-card {
+  width: 200px;
+  height: 262px;
+  position: relative;
+  box-shadow: none;
+  border-radius: 4px;
+  border: 1px solid #CBCCCB;
+  /* margin-right: 22.6px; */
+  margin: 1%;
+  /* margin-left: 1%;
+  margin-right: 1%;
+  margin-bottom: 1%; */
+}
+
+.box-image {
+  height: 70%;
+  width: 100%;
+  background-color: red;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+.box {
+  border: solid 2px rgb(180, 180, 180);
+  width: 75%;
+  /* height: 70%; */
+  min-Height: 70%;
+  margin:auto;
+  margin-top: 3%;
+  border-radius: 5px;
+}
+
+.box-header {
+  height: 80px;
+  border-bottom: 1px solid rgb(180, 180, 180);
+  font-size: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.items {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Scalable Search Start */
+.search {
+  padding-top: 15px;
+}
+
+.search .form-control {
+  padding-right: 2.375rem;
+  width: 100%;
+  border-color: #707070;
+}
+
+.search .form-control-feedback {
+  position: absolute;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 67px;
+  text-align: center;
+  pointer-events: none;
+  color: #707070;
+  right: 0;
+  top: 0;
+}
+/* Scalable Search End */
