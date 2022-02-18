@@ -6,14 +6,14 @@ import { useState, useEffect } from 'react'
 
 
 
+
 export default function Homepage() {
 
     const [allItems, setAllItems] = useState();
-    const [itemsDetail, setItemsDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios('items')
+        axios('/items')
             .then(response => {
                 console.log("hi" + response.data)
                 setAllItems(response.data.result)
@@ -25,7 +25,7 @@ export default function Homepage() {
     }, []);
 
     function handlerClick(i) {
-        setItemsDetail(i._id)
+        window.location.href = `/itemDetail/${i._id}`
     }
 
     return (

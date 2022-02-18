@@ -3,6 +3,10 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Homepage from './page/Homepage';
+import ItemDetail from './page/ItemDetail';
+import AddNewItem from './page/AddNewItem';
+import ReactFirebaseFileUpload from './page/ReactFirebaseFileUpload';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 
 function App() {
@@ -10,7 +14,7 @@ function App() {
     <div style={{ height: '100vh' }}>
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="#home">LENDIT</Navbar.Brand>
+          <Navbar.Brand href="/lendit">LENDIT</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Profile</Nav.Link>
             <Nav.Link href="#features">Items</Nav.Link>
@@ -22,8 +26,14 @@ function App() {
         </Container>
       </Navbar>
 
-      <Homepage />
-
+    
+      <Router>
+        <Routes>
+          <Route exact path="/lendit" element={ <Homepage/>}/>
+          <Route exact path="/itemDetail/:id" element={ <ItemDetail/>} />
+          <Route exact path="/addItem" element={<AddNewItem/>}/>
+        </Routes>
+      </Router>
       {/* <div className="box">
 
         <Container className="box-header">
@@ -46,5 +56,6 @@ function App() {
 
   );
 }
+
 
 export default App;
