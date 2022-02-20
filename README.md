@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# LendIt
+LendIt is an React Application allowing students/staffs to lend or boorow items in the university dorm. Users are able to upload items that they want to lend to others in return for compensation. Items will be shown in home page as a list for all users to search thorugh in order to borrow item. This is the final project for WEB APPLICATION DEVELOPMENT course.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Contributors (Team)
+- Krittamet Chuwongworaphinit 6111252
+- Thitare Nimanong 6210015
+- Jeffrey Zhi Yee Chong 6310023
 
-## Available Scripts
+# How To Get Start
 
-In the project directory, you can run:
+## Install
+Clone the project and run `npm install` to install dependencies
+    
+    $ npm ../
+    $ npm install
 
-### `npm start`
+## Run the App
+    $ npm start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Features
+The features according to the following:
+- Users can lend item by spcifying price and duration. Items can be add/edit/delete by the lender.
+- Borrowing items - Users can choose from the search page and add wanted items into borrowing list, confirmation request will be sent back to the lenders before processing (pending state).
+- Returning items - a confirmation request will notify both lenders and borrower before returning item.
+- Users can keep track of lending/borrowing history.
 
-### `npm test`
+Other features:
+- Users can edit profile Information (Name, email, phone number, location).
+- Users can unaccpet borrow request in pending state.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# Tech Stack
+Using MERN according to the following:
+- MongoDB
+- Express
+- React
+- Node
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# LendIT React Application
+https://github.com/greatkub/TermprojectWeb2
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
