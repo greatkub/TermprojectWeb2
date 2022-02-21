@@ -6,6 +6,7 @@ import Homepage from './page/Homepage';
 import ItemDetail from './page/ItemDetail';
 import AddNewItem from './page/AddNewItem';
 import Profile from './page/Profile';
+import History from './page/History';
 import ReactFirebaseFileUpload from './page/ReactFirebaseFileUpload';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
@@ -17,9 +18,9 @@ function App() {
         <Container>
           <Navbar.Brand href="/lendit">LENDIT</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Profile</Nav.Link>
+            <Nav.Link href="/Profile/6310023">Profile</Nav.Link>
             <Nav.Link href="/addItem">Add Item</Nav.Link>
-            <Nav.Link href="#pricing">History</Nav.Link>
+            <Nav.Link href="/History/6310023">History</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
             <Nav.Link href="#logout">LOGOUT</Nav.Link>
@@ -34,24 +35,10 @@ function App() {
           <Route exact path="/itemDetail/:id" element={<ItemDetail />} />
           <Route exact path="/addItem" element={<AddNewItem />} />
           <Route exact path="/Profile/:userid" element={<Profile />} />
+          <Route exact path="/History/:userid" element={<History />} />
         </Routes>
       </Router>
-      {/* <div className="box">
-
-        <Container className="box-header">
-          <label className="items">
-            Items
-          </label>
-
-          <div className="form-group search">
-            <input id="searchBar" type="text" className="form-control" placeholder="Search" />
-            <span className="fa fa-search form-control-feedback"></span>
-          </div>
-
-        </Container>
-
-
-      </div> */}
+      
 
 
     </div>
