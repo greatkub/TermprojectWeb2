@@ -17,7 +17,7 @@ function App() {
           <Navbar.Brand href="/lendit">LENDIT</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Profile</Nav.Link>
-            <Nav.Link href="#features">Items</Nav.Link>
+            <Nav.Link href="/addItem">Add Item</Nav.Link>
             <Nav.Link href="#pricing">History</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
