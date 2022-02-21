@@ -113,7 +113,7 @@ export default function AddNewItem() {
             </Container>
             <div>
                 <div>
-                    ReactFirebaseFileUpload
+                    reactFirebaseFileUpload
                     <br />
                     <input type="file" onChange={handleChange} />
                     <img src={url}>
