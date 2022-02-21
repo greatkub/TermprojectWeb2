@@ -80,3 +80,23 @@
   top: 0;
 }
 /* Scalable Search End */
+
+/* user Profile */
+.profile {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  
+}
+.profile > img {
+  height: 70%;
+  width: 80%;
+  margin-top: 10vh;
+  margin: auto;
+}
+.userInfo {
+  display:inline-block;
+  margin:auto;
+}
+.userInfo.editBtn {
+  text-align: left;
+}
