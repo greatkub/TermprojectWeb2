@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 
 
 
-export default function Homepage() {
+export default function Homepage({appToken}) {
 
     const [allItems, setAllItems] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -15,10 +15,18 @@ export default function Homepage() {
 
 
 
-
+    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTEwMTU1IiwiaWF0IjoxNjQ2MDUyNDQxfQ.xD0PL9dsvz015Eb3z56vXnWPdK13NJpnY__QJBNaJrE"
     useEffect(() => {
-        ; (async () => {
-            await axios('/items')
+        (async () => {
+            await axios('/items',
+                {
+                    headers:
+                    {
+                        'auth-token': appToken
+                    }
+                }
+
+            )
                 .then(response => {
                     console.log("hi" + response.data)
                     setAllItems(response.data.result)
@@ -65,6 +73,9 @@ export default function Homepage() {
                 <label className="items">
                     Items
                 </label>
+                {/* <button onClick={}> 
+
+                </button> */}
 
                 <div className="form-group search">
                     <input id="searchBar" type="text" className="form-control" placeholder="Search" onChange={searchItem} />

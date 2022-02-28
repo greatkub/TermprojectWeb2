@@ -9,14 +9,26 @@ import Profile from './page/Profile';
 import History from './page/History';
 import ReactFirebaseFileUpload from './page/ReactFirebaseFileUpload';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Login from './login/Login';
+import { useState } from 'react';
+import useLocalStorage from 'use-local-storage';
 
 
 function App() {
+  const [parentId, setParentId] = useLocalStorage()
+  const [parentToken, setParentToken] = useLocalStorage()
+
+
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: '100vh', backgroundColor: '#F3FCF8' }}>
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="/lendit">LENDIT</Navbar.Brand>
+          <Navbar.Brand href="/lendit">
+            <div style={{ color: '#48846F',fontWeight: '500' }}>
+              LENDIT
+            </div>
+
+          </Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/Profile/6310023">Profile</Nav.Link>
             <Nav.Link href="/addItem">Add Item</Nav.Link>
@@ -31,14 +43,15 @@ function App() {
 
       <Router>
         <Routes>
-          <Route exact path="/lendit" element={<Homepage />} />
+          <Route exact path='/login' element={<Login appId={parentId => setParentId(parentId)} appToken={parentToken => setParentToken(parentToken)}/>} />
+          <Route exact path="/lendit" element={<Homepage appToken={parentToken}/>} />
           <Route exact path="/itemDetail/:id" element={<ItemDetail />} />
           <Route exact path="/addItem" element={<AddNewItem />} />
           <Route exact path="/Profile/:userid" element={<Profile />} />
           <Route exact path="/History/:userid" element={<History />} />
         </Routes>
       </Router>
-      
+
 
 
     </div>
