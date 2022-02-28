@@ -5,6 +5,7 @@
   "proxy": "https://lent-it-api.herokuapp.com/",
   "homepage": "lendit",
   "dependencies": {
+    "@hookform/resolvers": "^2.8.8",
     "@mui/styles": "^5.4.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
@@ -19,7 +20,8 @@
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",
     "use-local-storage": "^2.3.6",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

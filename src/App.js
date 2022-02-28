@@ -18,6 +18,11 @@ function App() {
   const [parentId, setParentId] = useLocalStorage()
   const [parentToken, setParentToken] = useLocalStorage()
 
+  // const [token, setToken] = useState();
+  // if(!token) {
+  //   return <Login setToken={setToken} />
+  // }
+
 
   return (
     <div style={{ height: '100vh', backgroundColor: '#F3FCF8' }}>
@@ -35,7 +40,7 @@ function App() {
             <Nav.Link href="/History/6310023">History</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
-            <Nav.Link href="#logout">LOGOUT</Nav.Link>
+            <Nav.Link href="/login">LOGOUT</Nav.Link>
           </Navbar.Collapse>
         </Container>
       </Navbar>

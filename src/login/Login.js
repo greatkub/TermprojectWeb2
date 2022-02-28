@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@mui/styles';
+import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 import axios from 'axios'
 
 
@@ -39,6 +40,58 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 export default function Login(props) {
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const idRef = useRef();
+    const firstnameRef = useRef();
+    const lastnameRef = useRef();
+    const emailRef = useRef();
+    const phoneNumRef = useRef();
+    const locationRef = useRef();
+    const password1Ref = useRef();
+    const password2Ref = useRef();
+
+    function register() {
+        const idRef1 = idRef.current.value;
+        const firstnameRef1 = firstnameRef.current.value;
+        const lastnameRef1 = lastnameRef.current.value;
+        const emailRef1 = emailRef.current.value;
+        const phoneNumRef1 = phoneNumRef.current.value;
+        const locationRef1 = locationRef.current.value;
+        const password1Ref1 = password1Ref.current.value;
+        const password2Ref1 = password2Ref.current.value;
+
+        if (password1Ref1 != password2Ref1) {
+            alert('Password not match')
+        }
+        else {
+            axios.post("/auth/register",
+                {
+                    id: idRef1,
+                    password: password1Ref1,
+                    firstname: firstnameRef1,
+                    lastname: lastnameRef1,
+                    dormLocation: locationRef1,
+                    email: emailRef1,
+                    phoneNumber: phoneNumRef1
+                }
+
+            ).then((response) => {
+                console.log('done')
+                console.log(response);
+                alert("Success")
+                handleClose();
+            })
+                .catch(error => {
+                    console.log(error.response.data.message)
+                    alert(error.response.data.message)
+                })
+            
+        }
+    }
+
     const classes = useStyles()
     const [id, setId] = useState()
     const [password, setPassword] = useState()
@@ -98,8 +151,10 @@ export default function Login(props) {
                     <button className={classes.login_btn} onClick={() => handlerClick()}>
                         Login
                     </button>
-                    <div style={{bottom: -120, position: 'absolute', textAlign: 'center', width: '100%'}}>
-                        Don’t have an account? Sign up now!
+                    <div style={{ bottom: -120, position: 'absolute', textAlign: 'center', width: '100%' }}>
+                        Don’t have an account?
+                        <a className="signUp" onClick={handleShow}> Sign up </a>
+                        now!
                     </div>
                 </div>
 
@@ -108,8 +163,70 @@ export default function Login(props) {
 
 
             </div>
+            <Modal centered show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Sign Up</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row >
+                        <Col>
+                            {/* <Form.Label>Student ID</Form.Label> */}
+                            <Form.Control type="text" placeholder="Student ID" ref={idRef} />
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: '10px' }}>
+                        <Col>
+                            {/* <Form.Label>First Name</Form.Label> */}
+                            <Form.Control type="text" placeholder="First name" ref={firstnameRef} />
+                        </Col>
+                        <Col>
+                            {/* <Form.Label>Last Name</Form.Label> */}
+                            <Form.Control type="text" placeholder="Surname" ref={lastnameRef} />
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: '10px' }}>
+                        <Col>
+                            {/* <Form.Label>New Password</Form.Label> */}
+                            <Form.Control type="password" placeholder="Password" ref={password1Ref} />
+
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: '10px' }}>
+                        <Col>
+                            {/* <Form.Label>New Password</Form.Label> */}
+                            <Form.Control type="password" placeholder="Confirm Password" ref={password2Ref} />
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: '10px' }}>
+                        <Col>
+                            {/* <Form.Label>Email address</Form.Label> */}
+                            <Form.Control type="email" placeholder="Email" ref={emailRef} />
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: '10px' }}>
+                        <Col>
+                            {/* <Form.Label>Phone Number</Form.Label> */}
+                            <Form.Control type="text" placeholder="Phone Number" ref={phoneNumRef} />
+                        </Col>
+                        <Col>
+                            {/* <Form.Label>Location</Form.Label> */}
+                            <Form.Control type="text" placeholder="Location" ref={locationRef} />
+                        </Col>
+                    </Row>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={() => register()}>
+                        Sign Up
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
 
         </div>
+
     )
 }
