@@ -14,7 +14,8 @@ import { Container } from 'react-bootstrap';
 // ownerID: "6210015",
 // location: "king devid",
 // itemDesciption: "some thing"}
-export default function AddNewItem() {
+
+export default function AddNewItem({ appToken }) {
     const [itemName, setItemName] = useState('')
     const [price, setPrice] = useState(0)
     const [ownerID, setOwnerID] = useState(6210015)
@@ -28,13 +29,20 @@ export default function AddNewItem() {
     function handlerClick() {
         axios.post("/items",
             {
+                headers: { 'auth-token': appToken }
+            },
+            {
+
                 name: itemName,
                 pricePerDay: price,
                 ownerID: ownerID,
                 imageURL: url,
                 location: location.value,
                 itemDescription: "itemDesciption"
+
+
             }
+            
 
         ).then((response) => {
             console.log('done')

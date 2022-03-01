@@ -10,56 +10,55 @@ import History from './page/History';
 import ReactFirebaseFileUpload from './page/ReactFirebaseFileUpload';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Login from './login/Login';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useLocalStorage from 'use-local-storage';
 
 
 function App() {
   const [parentId, setParentId] = useLocalStorage()
-  const [parentToken, setParentToken] = useLocalStorage()
+  const [parentToken, setParentToken] = useLocalStorage('')
 
-  // const [token, setToken] = useState();
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
-
+  
 
   return (
     <div style={{ height: '100vh', backgroundColor: '#F3FCF8' }}>
-      <Navbar bg="light" variant="light">
-        <Container>
-          <Navbar.Brand href="/lendit">
-            <div style={{ color: '#48846F',fontWeight: '500' }}>
-              LENDIT
-            </div>
+      {parentToken != '' &&
+        <Navbar bg="light" variant="light">
+          <Container>
+            <Navbar.Brand href="/lendit2">
+              <div style={{ color: '#48846F', fontWeight: '500' }}>
+                LENDIT
+              </div>
 
-          </Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="/Profile/6310023">Profile</Nav.Link>
-            <Nav.Link href="/addItem">Add Item</Nav.Link>
-            <Nav.Link href="/History/6310023">History</Nav.Link>
-          </Nav>
-          <Navbar.Collapse className="justify-content-end">
-            <Nav.Link href="/login">LOGOUT</Nav.Link>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
+            </Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href={"/Profile/" + parentId} >Profile</Nav.Link>
+              <Nav.Link href="/addItem">Add Item</Nav.Link>
+              <Nav.Link href="#addItem">Items</Nav.Link>
+              <Nav.Link href={"/History/" + parentId}>History</Nav.Link>
+            </Nav>
+            <Navbar.Collapse className="justify-content-end">
+              <Nav.Link href="/lendit" onClick={() => setParentToken('')}>LOGOUT</Nav.Link>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      }
 
       <Router>
         <Routes>
-          <Route exact path='/login' element={<Login appId={parentId => setParentId(parentId)} appToken={parentToken => setParentToken(parentToken)}/>} />
-          <Route exact path="/lendit" element={<Homepage appToken={parentToken}/>} />
-          <Route exact path="/itemDetail/:id" element={<ItemDetail />} />
-          <Route exact path="/addItem" element={<AddNewItem />} />
-          <Route exact path="/Profile/:userid" element={<Profile />} />
-          <Route exact path="/History/:userid" element={<History />} />
+          <Route exact path='/lendit' element={<Login appId={parentId => setParentId(parentId)} appToken={parentToken => setParentToken(parentToken)} />} />
+          <Route exact path="/lendit2" element={<Homepage appToken={parentToken} />} />
+          <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} />} />
+          <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} />} />
+          <Route exact path="/Profile/:userid" element={<Profile appToken={parentToken} />} />
+          <Route exact path="/History/:userid" element={<History appToken={parentToken} />} />
+          <Route exact path="/History/:userid" element={<History appToken={parentToken} />} />
         </Routes>
       </Router>
 
 
 
-    </div>
+    </div >
 
   );
 }

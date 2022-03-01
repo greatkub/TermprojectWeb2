@@ -8,7 +8,7 @@ import { findAllByDisplayValue } from '@testing-library/react';
 
 
 
-export default function Profile() {
+export default function Profile({ appToken }) {
     const [userDetail, setuserDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -27,31 +27,43 @@ export default function Profile() {
         const phoneNum1 = phoneNumRef.current.value;
         const location1 = locationRef.current.value;
 
+        const obj = {
+            id: userid,
+            firstname: firstname1,
+            lastname: lastname1,
+            imageURL: userDetail.imageURL,
+            dormLocation: location1,
+            email: email1,
+            phoneNumber: phoneNum1,
+        }
+
         axios.put(`/users/${userid}`,
+            obj,
             {
-                id: userid,
-                firstname: firstname1,
-                lastname: lastname1,
-                imageURL: userDetail.imageURL,
-                dormLocation: location1,
-                email: email1,
-                phoneNumber: phoneNum1,
-              }
+                headers: { 'auth-token': appToken }
+            }
         ).then((response) => {
             console.log('done')
             console.log(response);
-            alert("Success");
+            // alert("Success");
             handleClose();
+            setuserDetail(obj)
         })
             .catch(error => {
                 console.log(error.response)
                 alert("fail Edit")
             })
-        
+
     }
 
     useEffect(() => {
-        axios(`/users/${userid}`)
+        axios(`/users/${userid}`, {
+            headers:
+            {
+                'auth-token': appToken
+            }
+
+        })
             .then(response => {
                 console.log("hi" + response.data)
                 console.log(response.data.result)
@@ -61,15 +73,15 @@ export default function Profile() {
             .catch(error => {
                 console.log('Error getting fake data: ' + error);
             })
-    }, [isLoading]);
+    }, userDetail);
+
+
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     return (
-
-
         <div>
             {isLoading &&
                 <div className="box" >

@@ -9,7 +9,7 @@ import Select from 'react-select'
 
 
 
-export default function ItemDetail() {
+export default function ItemDetail({ appToken }) {
     const [itemDetail, setitemDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [duration, setDuration] = useState(1);
@@ -28,6 +28,9 @@ export default function ItemDetail() {
                 borrowerID: 6210014,
                 lenderID: itemDetail.ownerID,
                 borrowDuration: parseInt(duration)
+            },
+            {
+                headers: { 'auth-token': appToken }
             }
 
         ).then((response) => {
