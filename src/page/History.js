@@ -5,7 +5,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react'
 import { Params, useParams } from 'react-router-dom';
 import { findAllByDisplayValue } from '@testing-library/react';
-import Select from 'react-select'
+import Select from 'react-select';
+import useLocalStorage from 'use-local-storage';
 
 
 
@@ -15,12 +16,13 @@ export default function History({ appToken }) {
 
     const { userid } = useParams()
 
-    var lendHistory = [];
-    var borrowedHistory = [];
+    const [lendHistory,setLendHistory] = useState([]);
+    const [borrowedHistory,setBorrowedHistory] = useState([]);
 
     useEffect(() => {
-        lendHistory = [];
-        borrowedHistory = [];
+
+        setLendHistory([]);
+        setBorrowedHistory([]);
 
         axios(`/transactions/${userid}`,
             {
@@ -38,13 +40,17 @@ export default function History({ appToken }) {
                         }
                     )
                         .then(response => {
+
                             if (response.data.result.borrowID.lenderID == userid) {
                                 // console.log("LendHistory", response.data.result)
-                                lendHistory.push(response.data.result);
+                                // lendHistory.push(response.data.result);
+                                console.log("lend");
+                                setLendHistory([...lendHistory,response.data.result]);
                             }
                             else {
                                 // console.log("BorrowedHistory", response.data.result)
-                                borrowedHistory.push(response.data.result);
+                                // borrowedHistory.push(response.data.result);
+                                setBorrowedHistory([...borrowedHistory,response.data.result]);
                             }
 
                         })
@@ -68,7 +74,8 @@ export default function History({ appToken }) {
         return (
             <div>
                 <div>
-                    {item.returnStatus}
+                    {item.returnStatus+''}
+                    test1
                 </div>
             </div>
         )
@@ -91,6 +98,8 @@ export default function History({ appToken }) {
                             </Navbar.Brand>
                         </Container>
                     </Navbar>
+
+                    <Button onClick={() => {console.log(lendHistory)}}></Button>
 
                     <Container>
                         { renderHistory }

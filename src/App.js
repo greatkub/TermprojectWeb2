@@ -18,8 +18,6 @@ function App() {
   const [parentId, setParentId] = useLocalStorage()
   const [parentToken, setParentToken] = useLocalStorage('')
 
-  
-
   return (
     <div style={{ height: '100vh', backgroundColor: '#F3FCF8' }}>
       {parentToken != '' &&

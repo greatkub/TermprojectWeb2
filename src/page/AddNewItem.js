@@ -28,11 +28,8 @@ export default function AddNewItem({ appToken }) {
 
     function handlerClick() {
         axios.post("/items",
+            
             {
-                headers: { 'auth-token': appToken }
-            },
-            {
-
                 name: itemName,
                 pricePerDay: price,
                 ownerID: ownerID,
@@ -40,7 +37,9 @@ export default function AddNewItem({ appToken }) {
                 location: location.value,
                 itemDescription: "itemDesciption"
 
-
+            },
+            {
+                headers: { 'auth-token': appToken }
             }
             
 
