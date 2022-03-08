@@ -4,8 +4,9 @@ import { makeStyles } from "@mui/styles";
 import axios from 'axios';
 import { useState, useEffect } from 'react'
 import { Params, useParams } from 'react-router-dom';
-import { findAllByDisplayValue } from '@testing-library/react';
-import Select from 'react-select'
+import { findAllByDisplayValue, render } from '@testing-library/react';
+import Select from 'react-select';
+import parse from 'html-react-parser';
 
 
 
@@ -18,6 +19,7 @@ export default function Items({ appToken }) {
 
     const [lendItems, setLendItems] = useState([]);
     const [borrowedItems, setBorrowedItems] = useState([]);
+    const [availableItems, setAvailableItems] = useState([]);
 
     useEffect(() => {
 
@@ -31,7 +33,7 @@ export default function Items({ appToken }) {
             }
         )
             .then(response => {
-                setItems(response.data.result)
+                setItems(response.data.result.filter(item => item.avaliable == true))
                 console.log("Items", items)
 
             })
@@ -48,6 +50,8 @@ export default function Items({ appToken }) {
             .then(response => {
                 setLendItems(response.data.result)
                 console.log("LendItems", lendItems)
+
+                
             })
             .catch(error => {
                 console.log('Error getting fake data: ' + error);
@@ -67,110 +71,99 @@ export default function Items({ appToken }) {
                 console.log('Error getting fake data: ' + error);
             })
 
-    }, [isLoading]);
+            
+        
+
+        console.log("ye", availableItems)
+    }, []);
 
 
-    function renderItems() {
-        // let item2 = items.map(item =>)
-        // return (
-        //     <div className='box-card2' >
-                {/* <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+
+
+    const renderPendingItems = lendItems.map((item, i) => {
+        if (item.pendingStat == false) {
+            return (
+                <div className='box-card2' >
+                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                    </img>
+                    <div>
+                        {item.itemID.name}
+                    </div>
+                    <div>
+                        Borrower:{item.borrowerID}
+                    </div>
+                    <div>
+                        Duration:{item.borrowDuration}
+                    </div>
+                    <div>
+                        <Button>Accept</Button>
+                    </div>
+
+                </div>
+            )
+        }
+
+    })
+    const renderLendingItems = lendItems.map((item, i) => {
+        if (item.pendingStat == true) {
+            return (
+                <div className='box-card2' >
+                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                    </img>
+                    <div>
+                        {item.itemID.name}
+                    </div>
+                    <div>
+                        Borrower:{item.borrowerID}
+                    </div>
+                    <div>
+                        Duration:{item.borrowDuration}
+                    </div>
+
+                </div>
+            )
+        }
+
+    })
+
+    const renderAvalaibleItems = items.map((item, i) => {
+        return (
+            <div className='box-card2' >
+                <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                 </img>
                 <div>
                     {item.name}
                 </div>
                 <div>
                     Availability: {item.avaliable + ''}
-                </div> */}
-            {/* </div> */}
-        // )
-    };
+                </div>
 
-    
-
+            </div>
+        )
+    })
 
 
-    // var foundItem;
-    // var found = false;
-    // lendItems.forEach((item2) => {
-    //     if (item._id == item2.itemID) {
-    //         found = true;
-    //         foundItem = item2;
-    //         // console.log(item._id, item2.itemID)
-    //     }
-    // })
-    // if (!found) {
-    //     return (
-    //         <div className='box-card2' key={i} >
-    //             <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-    //             </img>
-    //             <div>
-    //                 {item.name}
-    //             </div>
-    //             <div>
-    //                 Availability: {item.avaliable + ''}
-    //             </div>
-    //         </div>
-    //     )
-    // }
-    // else if (foundItem.pendingStat){
-    //     return (
-    //         <div className='box-card2'  >
-    //             <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-    //             </img>
-    //             <div>
-    //                 {item.name}
-    //             </div>
-    //             <div>
-    //                 Borrower: {foundItem.borrowerID}
-    //             </div>
-    //             <div>
-    //                 Duration: {foundItem.borrowDuration}
-    //             </div>
-    //         </div>
-    //     )
-    // }
-    // else if (!foundItem.pendingStat){
-    //     return (
-    //         <div className='box-card2'  >
-    //             <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-    //             </img>
-    //             <div>
-    //                 {item.name}
-    //             </div>
-    //             <div>
-    //                 Borrower: {foundItem.borrowerID}
-    //             </div>
-    //             <div>
-    //                 Duration: {foundItem.borrowDuration}
-    //             </div>
-    //             <div>
-    //                 <Button>Accept</Button>
-    //             </div>
-    //         </div>
-    //     )
-    // }
-    // })
+    const renderBorrow = borrowedItems.map((item, i) => {
+        return (
+            <div className='box-card2' >
+                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                </img>
+                <div>
+                    {item.itemID.name}
+                </div>
+                <div>
+                    {item.lenderID}
+                </div>
+                <div>
+                    Duration:{item.borrowDuration}
+                </div>
+                <div>
+                    <Button>Return</Button>
+                </div>
+            </div>
+        )
 
 
-    const renderBorrow = items.map((item, i) => {
-        borrowedItems.forEach((item2) => {
-            if (item._id == item2.itemID) {
-                console.log("yes");
-                return (
-                    <div className='box-card2' >
-                        <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                        </img>
-                        <div>
-                            {item.name}
-                        </div>
-                        <div>
-                            {item2.lenderID}
-                        </div>
-                    </div>
-                )
-            }
-        })
 
     })
 
@@ -204,15 +197,18 @@ export default function Items({ appToken }) {
                         </Container>
                     </Navbar>
 
-                    <Button onClick={() => { console.log(lendItems) }}></Button>
+                    <Button onClick={() => { console.log(items,lendItems,availableItems) }}></Button>
 
 
 
                     <div className="box">
                         <div style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
                             {lend ?
-                                (renderItems) :
-                                (renderBorrow)
+
+                                [(renderPendingItems), (renderLendingItems), (renderAvalaibleItems)]
+
+
+                                : (renderBorrow)
                             }
                         </div>
                     </div>
