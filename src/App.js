@@ -17,7 +17,8 @@ import useLocalStorage from 'use-local-storage';
 
 function App() {
   const [parentId, setParentId] = useLocalStorage()
-  const [parentToken, setParentToken] = useLocalStorage('')
+  const [parentToken, setParentToken] = useLocalStorage('');
+  
 
   return (
     <div style={{ height: '100vh', backgroundColor: '#F3FCF8' }}>
@@ -37,7 +38,7 @@ function App() {
               <Nav.Link href={"/History/" + parentId} >History</Nav.Link>
             </Nav>
             <Navbar.Collapse className="justify-content-end">
-              <Nav.Link href="/lendit" onClick={() => setParentToken('')}>LOGOUT</Nav.Link>
+              <Nav.Link href="/lendit" onClick={() => { setParentToken('') }}>LOGOUT</Nav.Link>
             </Navbar.Collapse>
           </Container>
         </Navbar>
@@ -46,9 +47,9 @@ function App() {
       <Router>
         <Routes>
           <Route exact path='/lendit' element={<Login appId={parentId => setParentId(parentId)} appToken={parentToken => setParentToken(parentToken)} />} />
-          <Route exact path="/lendit2" element={<Homepage appToken={parentToken} appId={parentId}/>} />
-          <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} appId={parentId}/>} />
-          <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} appId={parentId}/>} />
+          <Route exact path="/lendit2" element={<Homepage appToken={parentToken} appId={parentId} />} />
+          <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} appId={parentId} />} />
+          <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} appId={parentId} />} />
           <Route exact path="/Profile/:userid" element={<Profile appToken={parentToken} />} />
           <Route exact path="/History/:userid" element={<History appToken={parentToken} />} />
           <Route exact path="/Items/:userid" element={<Items appToken={parentToken} />} />

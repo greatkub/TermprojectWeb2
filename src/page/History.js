@@ -14,12 +14,13 @@ export default function History({ appToken }) {
     const [historyItems, setHistoryItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [lend, setLend] = useState(true);
+    // const [name, setName] = useState('');
 
     const { userid } = useParams()
 
     const [lendHistory, setLendHistory] = useState([]);
     const [borrowedHistory, setBorrowedHistory] = useState([]);
-
+    var name;
     useEffect(() => {
 
         // get transactions of user
@@ -29,9 +30,11 @@ export default function History({ appToken }) {
             }
         )
             .then(response => {
-                console.log(response.data.result);
-                setHistoryItems(response.data.result.filter(item => item.returnStatus == true))
-                historyItems.forEach(item => {
+                console.log("allitems", response.data.result);
+                setHistoryItems(response.data.result.filter(item => item.returnStatus == true));
+                var result = response.data.result.filter(item => item.returnStatus == true);
+                var count = 0;
+                result.forEach(item => {
                     axios(`/transactions/detail/${item._id}`,
                         {
                             headers: { 'auth-token': appToken }
@@ -39,62 +42,62 @@ export default function History({ appToken }) {
                     )
                         .then(response => {
                             if (response.data.result.borrowID.lenderID == userid) {
-                                // console.log("LendHistory", response.data.result)
+                                console.log("LendHistory", response.data.result)
                                 // lendHistory.push(response.data.result);
                                 lendHistory.push(response.data.result);
+
+                                count++;
+
                             }
                             else {
                                 // console.log("BorrowedHistory", response.data.result)
                                 // borrowedHistory.push(response.data.result);
                                 borrowedHistory.push(response.data.result);
+                                count++;
                             }
+
+                            if (result.length == count) {
+                                console.log("loading")
+                                setIsLoading(true);
+                            }
+
 
                         })
                         .catch(error => {
                             console.log('Error getting fake data: ' + error);
                         })
+
                 })
-                setIsLoading(true);
+
+
             })
             .catch(error => {
                 console.log('Error getting fake data: ' + error);
             })
-    }, [isLoading]);
+    }, []);
+
 
     var name;
     const renderLendHistory = lendHistory.map((item, i) => {
-        getNameById(item.borrowID.itemID)
-            .then(data => {
-                name = data;
-                console.log("gg1", name)
-            });
-        console.log("gg2", name)
+        
         return (
             <tr key={i}>
                 <td>{i + 1}</td>
+                <td>{item.borrowID.itemID.name}</td>
                 <td>{item.borrowID.borrowerID}</td>
-                <td>{name}</td>
                 <td>{item.totalPrice}</td>
             </tr>
         )
     })
 
 
-    async function getNameById(id) {
-        return axios(`/items/${id}`, {
-            headers: { 'auth-token': appToken }
-        })
-            .then(response => {
-                return response.data.result.name;
-            })
-    }
-
     const renderBorrowedHistory = borrowedHistory.map((item, i) => {
+        
         return (
             <tr key={i}>
                 <td>{i + 1}</td>
-                <td></td>
-                <td>{item.borrowID.borrowerID}</td>
+                <td>{item.borrowID.itemID.name}</td>
+                <td>{item.borrowID.lenderID}</td>
                 <td>{item.totalPrice}</td>
             </tr>
         )
@@ -127,7 +130,7 @@ export default function History({ appToken }) {
                         </Container>
                     </Navbar>
 
-                    <Button onClick={() => { console.log(lendHistory, borrowedHistory) }}></Button>
+                    
 
                     <Container>
 
