@@ -15,10 +15,9 @@ import { Container } from 'react-bootstrap';
 // location: "king devid",
 // itemDesciption: "some thing"}
 
-export default function AddNewItem({ appToken }) {
+export default function AddNewItem({ appToken,appId }) {
     const [itemName, setItemName] = useState('')
     const [price, setPrice] = useState(0)
-    const [ownerID, setOwnerID] = useState(6210015)
     const [location, setLocation] = useState('')
     const [itemDesciption, setItemDescription] = useState('')
     const [image, setImage] = useState(null);
@@ -32,7 +31,7 @@ export default function AddNewItem({ appToken }) {
             {
                 name: itemName,
                 pricePerDay: price,
-                ownerID: ownerID,
+                ownerID: appId,
                 imageURL: url,
                 location: location.value,
                 itemDescription: "itemDesciption"

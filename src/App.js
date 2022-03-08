@@ -7,6 +7,7 @@ import ItemDetail from './page/ItemDetail';
 import AddNewItem from './page/AddNewItem';
 import Profile from './page/Profile';
 import History from './page/History';
+import Items from './page/Items';
 import ReactFirebaseFileUpload from './page/ReactFirebaseFileUpload';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Login from './login/Login';
@@ -23,7 +24,7 @@ function App() {
       {parentToken != '' &&
         <Navbar bg="light" variant="light">
           <Container>
-            <Navbar.Brand href="/lendit2">
+            <Navbar.Brand href={"/lendit2"}>
               <div style={{ color: '#48846F', fontWeight: '500' }}>
                 LENDIT
               </div>
@@ -32,8 +33,8 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link href={"/Profile/" + parentId} >Profile</Nav.Link>
               <Nav.Link href="/addItem">Add Item</Nav.Link>
-              <Nav.Link href="#addItem">Items</Nav.Link>
-              <Nav.Link href={"/History/" + parentId}>History</Nav.Link>
+              <Nav.Link href={"/Items/" + parentId} >Items</Nav.Link>
+              <Nav.Link href={"/History/" + parentId} >History</Nav.Link>
             </Nav>
             <Navbar.Collapse className="justify-content-end">
               <Nav.Link href="/lendit" onClick={() => setParentToken('')}>LOGOUT</Nav.Link>
@@ -45,12 +46,12 @@ function App() {
       <Router>
         <Routes>
           <Route exact path='/lendit' element={<Login appId={parentId => setParentId(parentId)} appToken={parentToken => setParentToken(parentToken)} />} />
-          <Route exact path="/lendit2" element={<Homepage appToken={parentToken} />} />
-          <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} />} />
-          <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} />} />
+          <Route exact path="/lendit2" element={<Homepage appToken={parentToken} appId={parentId}/>} />
+          <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} appId={parentId}/>} />
+          <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} appId={parentId}/>} />
           <Route exact path="/Profile/:userid" element={<Profile appToken={parentToken} />} />
           <Route exact path="/History/:userid" element={<History appToken={parentToken} />} />
-          <Route exact path="/History/:userid" element={<History appToken={parentToken} />} />
+          <Route exact path="/Items/:userid" element={<Items appToken={parentToken} />} />
         </Routes>
       </Router>
 

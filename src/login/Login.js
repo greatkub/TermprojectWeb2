@@ -108,7 +108,7 @@ export default function Login(props) {
         ).then((response) => {
             console.log('done')
             console.log(response);
-            console.log("Token: ", response.data.result[`auth-token`])
+            console.log("Token: ", response.data.result)
             // setAuthToken(response.data.result[`auth-token`])
             // setAuthId(response.data.result.id)
 
@@ -116,7 +116,7 @@ export default function Login(props) {
             props.appToken(response.data.result[`auth-token`])
             // console.log(props.appToken)
             // console.log(expenseLists)
-            window.location.href = `/lendit2`;
+            window.location.href = `/lendit2/`;
             // alert("Success")
             // setToken(response.data.result[`auth-token`])]
 

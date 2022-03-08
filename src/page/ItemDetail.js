@@ -9,7 +9,7 @@ import Select from 'react-select'
 
 
 
-export default function ItemDetail({ appToken }) {
+export default function ItemDetail({ appToken, appId }) {
     const [itemDetail, setitemDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [duration, setDuration] = useState(1);
@@ -20,12 +20,12 @@ export default function ItemDetail({ appToken }) {
     const { id } = useParams()
 
     function handlerClick() {
+
         axios.post("/borrows/create-borrow",
             // expenseLists
-
             {
                 itemID: id,
-                borrowerID: 6210014,
+                borrowerID: appId,
                 lenderID: itemDetail.ownerID,
                 borrowDuration: parseInt(duration)
             },
@@ -38,8 +38,8 @@ export default function ItemDetail({ appToken }) {
             console.log(response);
             // console.log(expenseLists)
             // window.location.href = `/verify/${id}`;
-            alert("Success")
-            window.location.reload(false);
+            alert("Success request borrow")
+            // window.location.reload(false);
         })
             .catch(error => {
                 console.log(error.response)
@@ -106,7 +106,7 @@ export default function ItemDetail({ appToken }) {
                         </div>
                     </div>
 
-                    {itemDetail.avaliable &&
+                    {itemDetail.avaliable && itemDetail.ownerID != appId &&
                         <div>
                             {thisItemDuration(duration, setDuration, days, "set your duration")}
                             <button onClick={() => handlerClick()}>
