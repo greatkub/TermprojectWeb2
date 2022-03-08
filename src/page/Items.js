@@ -83,7 +83,7 @@ export default function Items({ appToken }) {
         })
         if (!found) {
             return (
-                <div className='box-card' key={i} >
+                <div className='box-card2' key={i} >
                     <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                     </img>
                     <div>
@@ -95,9 +95,9 @@ export default function Items({ appToken }) {
                 </div>
             )
         }
-        else {
+        else if (foundItem.pendingStat){
             return (
-                <div className='box-card'  >
+                <div className='box-card2'  >
                     <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                     </img>
                     <div>
@@ -105,6 +105,29 @@ export default function Items({ appToken }) {
                     </div>
                     <div>
                         Borrower: {foundItem.borrowerID}
+                    </div>
+                    <div>
+                        Duration: {foundItem.borrowDuration}
+                    </div>
+                </div>
+            )
+        }
+        else if (!foundItem.pendingStat){
+            return (
+                <div className='box-card2'  >
+                    <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                    </img>
+                    <div>
+                        {item.name}
+                    </div>
+                    <div>
+                        Borrower: {foundItem.borrowerID}
+                    </div>
+                    <div>
+                        Duration: {foundItem.borrowDuration}
+                    </div>
+                    <div>
+                        <Button>Accept</Button>
                     </div>
                 </div>
             )
@@ -118,7 +141,7 @@ export default function Items({ appToken }) {
             if (item._id == item2.itemID) {
                 console.log("yes");
                 return (
-                    <div className='box-card' >
+                    <div className='box-card2' >
                         <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                         </img>
                         <div>

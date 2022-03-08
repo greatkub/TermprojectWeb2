@@ -24,6 +24,20 @@
   margin-bottom: 1%; */
 }
 
+.box-card2 {
+  width: 260px;
+  height: 400px;
+  position: relative;
+  box-shadow: none;
+  border-radius: 4px;
+  border: 1px solid #CBCCCB;
+  /* margin-right: 22.6px; */
+  margin: 1%;
+  /* margin-left: 1%;
+  margin-right: 1%;
+  margin-bottom: 1%; */
+}
+
 .box-image {
   height: 70%;
   width: 100%;
