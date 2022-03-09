@@ -50,7 +50,7 @@ export default function Items({ appToken }) {
         )
             .then(response => {
                 setTransactions(response.data.result)
-                
+
             })
             .catch(error => {
                 console.log('Error getting fake data: ' + error);
@@ -154,8 +154,22 @@ export default function Items({ appToken }) {
                     })
             }
         })
+    }
 
-
+    function handlerDecline(item) {
+        axios.delete("/borrows/" + item._id,
+            {
+                headers: { 'auth-token': appToken }
+            }
+        )
+            .then(response => {
+                console.log(response)
+                alert("success Decline")
+                window.location.reload(true);
+            })
+            .catch(error => {
+                console.log('Error getting fake data: ' + error);
+            })
     }
 
 
@@ -177,7 +191,7 @@ export default function Items({ appToken }) {
                     </div>
                     <div>
                         <Button onClick={() => handlerAccept(item)}>Accept</Button>
-                        <Button onClick={() => { }}>Decline</Button>
+                        <Button onClick={() => handlerDecline(item)}>Decline</Button>
                     </div>
 
                 </div>

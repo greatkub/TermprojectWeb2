@@ -39,7 +39,7 @@ export default function ItemDetail({ appToken, appId }) {
             // console.log(expenseLists)
             // window.location.href = `/verify/${id}`;
             alert("Success request borrow")
-            // window.location.reload(false);
+            window.location.reload(true);
         })
             .catch(error => {
                 console.log(error.response)
