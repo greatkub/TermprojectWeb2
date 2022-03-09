@@ -20,7 +20,6 @@ export default function ItemDetail({ appToken, appId }) {
     const { id } = useParams()
 
     function handlerClick() {
-
         axios.post("/borrows/create-borrow",
             // expenseLists
             {
@@ -28,11 +27,7 @@ export default function ItemDetail({ appToken, appId }) {
                 borrowerID: appId,
                 lenderID: itemDetail.ownerID,
                 borrowDuration: parseInt(duration.value),
-                // itemID: "621676ec44a5d3c8605df960",
-                // borrowerID: "6210015",
-                // lenderID: "6310023",
                 pendingStat: false
-                // borrowDuration: 1
             },
             {
                 headers: { 'auth-token': appToken }
@@ -123,7 +118,7 @@ export default function ItemDetail({ appToken, appId }) {
 
                     }
 
-                    <button onClick={() => console.log(itemDetail.ownerID, appId, duration)}></button>
+                    {/* <button onClick={() => console.log(itemDetail.ownerID, appId, duration)}></button> */}
 
                 </div>
             }
