@@ -22,64 +22,64 @@ export default function History({ appToken }) {
     const [borrowedHistory, setBorrowedHistory] = useState([]);
     var name;
     useEffect(() => {
-
         // get transactions of user
-        axios(`/transactions/${userid}`,
-            {
-                headers: { 'auth-token': appToken }
-            }
-        )
-            .then(response => {
-                console.log("allitems", response.data.result);
-                setHistoryItems(response.data.result.filter(item => item.returnStatus == true));
-                var result = response.data.result.filter(item => item.returnStatus == true);
-                var count = 0;
-                result.forEach(item => {
-                    axios(`/transactions/detail/${item._id}`,
-                        {
-                            headers: { 'auth-token': appToken }
-                        }
-                    )
-                        .then(response => {
-                            if (response.data.result.borrowID.lenderID == userid) {
-                                console.log("LendHistory", response.data.result)
-                                // lendHistory.push(response.data.result);
-                                lendHistory.push(response.data.result);
+        try {
+            axios.get(`/transactions/${userid}`,
+                {
+                    headers: { 'auth-token': appToken }
+                }
+            )
+                .then(response => {
+                    console.log("allitems", response.data.result);
+                    setHistoryItems(response.data.result.filter(item => item.returnStatus == true));
+                    var result = response.data.result.filter(item => item.returnStatus == true);
+                    var count = 0;
+                    if (result.length != 0) {
+                        result.forEach(item => {
+                            axios.get(`/transactions/detail/${item._id}`,
+                                {
+                                    headers: { 'auth-token': appToken }
+                                }
+                            )
+                                .then(response => {
+                                    if (response.data.result.borrowID.lenderID == userid) {
+                                        console.log("LendHistory", response.data.result)
+                                        // lendHistory.push(response.data.result);
+                                        lendHistory.push(response.data.result);
+                                        setLendHistory(lendHistory)
+                                        count++;
 
-                                count++;
+                                    }
+                                    else {
+                                        // console.log("BorrowedHistory", response.data.result)
+                                        // borrowedHistory.push(response.data.result);
+                                        borrowedHistory.push(response.data.result);
+                                        setBorrowedHistory(borrowedHistory);
+                                        count++;
+                                    }
 
-                            }
-                            else {
-                                // console.log("BorrowedHistory", response.data.result)
-                                // borrowedHistory.push(response.data.result);
-                                borrowedHistory.push(response.data.result);
-                                count++;
-                            }
-
-                            if (result.length == count) {
-                                console.log("loading")
-                                setIsLoading(true);
-                            }
-
-
+                                    if (result.length == count) {
+                                        console.log("loading")
+                                        setIsLoading(true);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log('Error getting fake data: ' + error);
+                                })
                         })
-                        .catch(error => {
-                            console.log('Error getting fake data: ' + error);
-                        })
-
+                    }
                 })
+                .catch(error => {
+                    console.log('Error getting fake data: ' + error);
+                })
+        }
+        catch (e) {
+            console.log(e)
+        }
 
-
-            })
-            .catch(error => {
-                console.log('Error getting fake data: ' + error);
-            })
     }, []);
 
-
-    var name;
     const renderLendHistory = lendHistory.map((item, i) => {
-        
         return (
             <tr key={i}>
                 <td>{i + 1}</td>
@@ -89,10 +89,8 @@ export default function History({ appToken }) {
             </tr>
         )
     })
-
-
     const renderBorrowedHistory = borrowedHistory.map((item, i) => {
-        
+
         return (
             <tr key={i}>
                 <td>{i + 1}</td>
@@ -130,39 +128,55 @@ export default function History({ appToken }) {
                         </Container>
                     </Navbar>
 
-                    
+                    {/* <Button onClick={() => { console.log(historyItems,lendHistory, borrowedHistory) }}> Test </Button> */}
+
 
                     <Container>
 
                         <Table striped bordered hover size="sm">
+  
 
-                            {lend ? (<>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Item</th>
-                                        <th>Borrower</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderLendHistory}
-                                </tbody>
-                            </>) : (<>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Item</th>
-                                        <th>Lender</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {renderBorrowedHistory}
-                                </tbody>
-                            </>)}
+                            {lend && lendHistory.length != 0 &&
+                                <>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th>Borrower</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderLendHistory}
+                                    </tbody>
+                                </>
+                            }
+                            {lend && lendHistory.length == 0 &&
+                                <>
+                                    <h3>No Lend History record</h3>
+                                </>
+                            }
 
-
+                            {!lend && borrowedHistory.length != 0 &&
+                                <>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th>Borrower</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {renderBorrowedHistory}
+                                    </tbody>
+                                </>
+                            }
+                            {lend && borrowedHistory.length == 0 &&
+                                <>
+                                    <h3>No Borrowed History record</h3>
+                                </>
+                            }
 
 
 

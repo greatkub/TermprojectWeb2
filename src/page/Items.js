@@ -17,15 +17,14 @@ export default function Items({ appToken }) {
 
     const { userid } = useParams()
 
-    const [lendItems, setLendItems] = useState([]);
-    const [borrowedItems, setBorrowedItems] = useState([]);
+    const [pendingItems, setPendingItems] = useState([]);
+    const [lendingItems, setLendingItems] = useState([]);
     const [availableItems, setAvailableItems] = useState([]);
+    const [borrowingItems, setBorrowingItems] = useState([]);
+    const [waitBorrowItems, setWaitBorrowItems] = useState([]);
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
-
-        setLendItems([]);
-        setBorrowedItems([]);
 
         //get all items of user
         axios.get(`/items?userId=${userid}`,
@@ -62,8 +61,11 @@ export default function Items({ appToken }) {
             }
         )
             .then(response => {
-                setLendItems(response.data.result.filter((item) => {
-                    return !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                setPendingItems(response.data.result.filter((item) => {
+                    return item.pendingStat == false && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                }))
+                setLendingItems(response.data.result.filter((item) => {
+                    return item.pendingStat == true && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
                 }))
             })
             .catch(error => {
@@ -76,8 +78,12 @@ export default function Items({ appToken }) {
             }
         )
             .then(response => {
-                setBorrowedItems(response.data.result.filter((item) => {
-                    return !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                setWaitBorrowItems(response.data.result.filter((item) => {
+                    return item.pendingStat == false && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                }
+                ))
+                setBorrowingItems(response.data.result.filter((item) => {
+                    return item.pendingStat == true && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
                 }
                 ))
                 setIsLoading(true);
@@ -174,56 +180,51 @@ export default function Items({ appToken }) {
 
 
 
-    const renderPendingItems = lendItems.map((item, i) => {
-        if (item.pendingStat == false) {
-            return (
-                <div className='box-card2' >
-                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                    </img>
-                    <div>
-                        {item.itemID.name}
-                    </div>
-                    <div>
-                        Borrower:{item.borrowerID}
-                    </div>
-                    <div>
-                        Duration:{item.borrowDuration}
-                    </div>
-                    <div>
-                        <Button onClick={() => handlerAccept(item)}>Accept</Button>
-                        <Button onClick={() => handlerDecline(item)}>Decline</Button>
-                    </div>
-
-                </div>
-            )
-        }
-
-    })
-    const renderLendingItems = lendItems.map((item, i) => {
-        if (item.pendingStat == true) {
-            return (
-                <div className='box-card2' >
-                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                    </img>
-                    <div>
-                        {item.itemID.name}
-                    </div>
-                    <div>
-                        Borrower:{item.borrowerID}
-                    </div>
-                    <div>
-                        Duration:{item.borrowDuration}
-                    </div>
-
-                </div>
-            )
-        }
-
-    })
-
-    const renderAvalaibleItems = availableItems.map((item, i) => {
+    const renderPendingItems = pendingItems.map((item, i) => {
         return (
-            <div className='box-card2' >
+            <div className='box-card2' key={i}>
+                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                </img>
+                <div>
+                    {item.itemID.name}
+                </div>
+                <div>
+                    Borrower:{item.borrowerID}
+                </div>
+                <div>
+                    Duration:{item.borrowDuration}
+                </div>
+                <div>
+                    <Button onClick={() => handlerAccept(item)}>Accept</Button>
+                    <Button onClick={() => handlerDecline(item)}>Decline</Button>
+                </div>
+
+            </div>
+        )
+    })
+    const renderLendingItems = lendingItems.map((item, i) => {
+        return (
+            <div className='box-card2' key={i}>
+                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                </img>
+                <div>
+                    {item.itemID.name}
+                </div>
+                <div>
+                    Borrower:{item.borrowerID}
+                </div>
+                <div>
+                    Duration:{item.borrowDuration}
+                </div>
+
+            </div>
+        )
+
+    })
+
+    const renderAvailableItems = availableItems.map((item, i) => {
+        return (
+            <div className='box-card2' key={i}>
                 <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                 </img>
                 <div>
@@ -238,51 +239,46 @@ export default function Items({ appToken }) {
     })
 
 
-    const renderWaitingBorrow = borrowedItems.map((item, i) => {
-        if (item.pendingStat == false) {
-            return (
-                <div className='box-card2' >
-                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                    </img>
-                    <div>
-                        {item.itemID.name}
-                    </div>
-                    <div>
-                        {item.lenderID}
-                    </div>
-                    <div>
-                        Duration:{item.borrowDuration}
-                    </div>
-                    <div>
-                        Wating for owner to accept.
-                    </div>
+    const renderWaitingBorrow = waitBorrowItems.map((item, i) => {
+        return (
+            <div className='box-card2' key={i}>
+                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                </img>
+                <div>
+                    {item.itemID.name}
                 </div>
-            )
-        }
+                <div>
+                    {item.lenderID}
+                </div>
+                <div>
+                    Duration:{item.borrowDuration}
+                </div>
+                <div>
+                    Wating for owner to accept.
+                </div>
+            </div>
+        )
     })
 
-    const renderBorrowing = borrowedItems.map((item, i) => {
-        if (item.pendingStat == true) {
-
-            return (
-                <div className='box-card2' >
-                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                    </img>
-                    <div>
-                        {item.itemID.name}
-                    </div>
-                    <div>
-                        {item.lenderID}
-                    </div>
-                    <div>
-                        Duration:{item.borrowDuration}
-                    </div>
-                    <div>
-                        <Button onClick={() => handlerReturn(item)}>Return</Button>
-                    </div>
+    const renderBorrowing = borrowingItems.map((item, i) => {
+        return (
+            <div className='box-card2' key={i}>
+                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                </img>
+                <div>
+                    {item.itemID.name}
                 </div>
-            )
-        }
+                <div>
+                    {item.lenderID}
+                </div>
+                <div>
+                    Duration:{item.borrowDuration}
+                </div>
+                <div>
+                    <Button onClick={() => handlerReturn(item)}>Return</Button>
+                </div>
+            </div>
+        )
     })
 
 
@@ -314,18 +310,63 @@ export default function Items({ appToken }) {
                         </Container>
                     </Navbar>
 
-                    {/* <Button onClick={() => { console.log(transactions, borrowedItems, borrowedItems[4]._id.includes(transactions.borrowID)) }}></Button> */}
-                    <Button onClick={() => { console.log(borrowedItems, transactions) }}></Button>
+
 
 
 
                     <div className="box">
                         <div style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
-                            {lend ?
+                            {/* {lend ?
                                 [(renderPendingItems), (renderLendingItems), (renderAvalaibleItems)]
                                 :
                                 [(renderWaitingBorrow), (renderBorrowing)]
+                            } */}
+
+
+                            {lend && pendingItems.length != 0 &&
+                                <>
+                                    <h3>Pending Items</h3>
+                                    {(renderPendingItems)}
+                                </>
                             }
+                            {lend && lendingItems.length != 0 &&
+                                <>
+                                    <h3>Lending Items</h3>
+                                    {(renderLendingItems)}
+                                </>
+                            }
+                            {lend && availableItems.length != 0 &&
+                                <>
+                                    <h3>Available Items</h3>
+                                    {(renderAvailableItems)}
+                                </>
+                            }
+                            {lend && pendingItems.length == 0 && lendingItems.length == 0 && availableItems.length == 0 &&
+                                <>
+                                    <h3>No Lend Items in the record</h3>
+                                </>
+                            }
+
+
+
+                            {!lend && waitBorrowItems.length != 0 &&
+                                <>
+                                    <h3>Pending Items</h3>
+                                    {(renderWaitingBorrow)}
+                                </>
+                            }
+                            {!lend && borrowingItems.length != 0 &&
+                                <>
+                                    <h3>Borrowing Items</h3>
+                                    {(renderBorrowing)}
+                                </>
+                            }
+                            {!lend && borrowingItems.length == 0 && waitBorrowItems.length == 0 &&
+                                <>
+                                    <h3>No Borrowed Items in the record</h3>
+                                </>
+                            }
+
                         </div>
                     </div>
 
