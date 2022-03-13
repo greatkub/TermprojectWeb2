@@ -183,21 +183,29 @@ export default function Items({ appToken }) {
     const renderPendingItems = pendingItems.map((item, i) => {
         return (
             <div className='box-card2' key={i}>
-                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                </img>
-                <div>
-                    {item.itemID.name}
+                <div className='upper'>
+                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                    </img>
+                    <div>
+                        {item.itemID.name}
+                    </div>
+                    <div>
+                        Borrower:{item.borrowerID}
+                    </div>
+                    <div>
+                        Duration:{item.borrowDuration}
+                    </div>
+
                 </div>
-                <div>
-                    Borrower:{item.borrowerID}
+                <div className="lower">
+                    <div>
+                        <Button variant="info" style={{ width: '50%' }} onClick={() => handlerAccept(item)}>Accept</Button>
+                        <Button variant="danger" style={{ width: '50%' }} onClick={() => handlerDecline(item)}>Decline</Button>
+                    </div>
+
                 </div>
-                <div>
-                    Duration:{item.borrowDuration}
-                </div>
-                <div>
-                    <Button onClick={() => handlerAccept(item)}>Accept</Button>
-                    <Button onClick={() => handlerDecline(item)}>Decline</Button>
-                </div>
+
+
 
             </div>
         )
@@ -216,7 +224,6 @@ export default function Items({ appToken }) {
                 <div>
                     Duration:{item.borrowDuration}
                 </div>
-
             </div>
         )
 
@@ -224,7 +231,7 @@ export default function Items({ appToken }) {
 
     const renderAvailableItems = availableItems.map((item, i) => {
         return (
-            <div className='box-card2' key={i}>
+            <div className='box-card3' key={i}>
                 <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                 </img>
                 <div>
@@ -248,10 +255,10 @@ export default function Items({ appToken }) {
                     {item.itemID.name}
                 </div>
                 <div>
-                    {item.lenderID}
+                    Owner: {item.lenderID}
                 </div>
                 <div>
-                    Duration:{item.borrowDuration}
+                    Duration: {item.borrowDuration}
                 </div>
                 <div>
                     Wating for owner to accept.
@@ -263,20 +270,28 @@ export default function Items({ appToken }) {
     const renderBorrowing = borrowingItems.map((item, i) => {
         return (
             <div className='box-card2' key={i}>
-                <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                </img>
-                <div>
-                    {item.itemID.name}
+                <div className='upper'>
+                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                    </img>
+                    <div>
+                        {item.itemID.name}
+                    </div>
+                    <div>
+                        Owner: {item.lenderID}
+                    </div>
+                    <div>
+                        Duration: {item.borrowDuration}
+                    </div>
+
+
                 </div>
-                <div>
-                    {item.lenderID}
+                <div className="lower">
+                    <div >
+                        <Button variant="info" onClick={() => handlerReturn(item)}>Return</Button>
+                    </div>
+
                 </div>
-                <div>
-                    Duration:{item.borrowDuration}
-                </div>
-                <div>
-                    <Button onClick={() => handlerReturn(item)}>Return</Button>
-                </div>
+
             </div>
         )
     })
@@ -315,7 +330,7 @@ export default function Items({ appToken }) {
 
 
                     <div className="box">
-                        <div style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
+                        <div className="box-1" style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
                             {/* {lend ?
                                 [(renderPendingItems), (renderLendingItems), (renderAvalaibleItems)]
                                 :

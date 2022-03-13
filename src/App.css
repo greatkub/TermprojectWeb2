@@ -25,17 +25,32 @@
 }
 
 .box-card2 {
-  width: 260px;
+  display: inline-block;
+  width: 280px;
+  height: 445px;
+  position: relative;
+  box-shadow: none;
+  border-radius: 4px;
+  border: 1px solid #CBCCCB;
+  margin: 1%;
+}
+
+.box-card2 .lower Button {
+  width: 100%;
+}
+
+.upper {
+  height: 91.5%; 
+}
+.box-card3 {
+  display: inline-block;
+  width: 280px;
   height: 400px;
   position: relative;
   box-shadow: none;
   border-radius: 4px;
   border: 1px solid #CBCCCB;
-  /* margin-right: 22.6px; */
   margin: 1%;
-  /* margin-left: 1%;
-  margin-right: 1%;
-  margin-bottom: 1%; */
 }
 
 .box-image {
@@ -113,4 +128,10 @@
 }
 .userInfo.editBtn {
   text-align: left;
-}   
+}
+
+.box-1 > h3 {
+  width: 100%;
+  padding-left: 15px;
+}
+

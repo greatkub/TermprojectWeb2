@@ -82,10 +82,10 @@ export default function History({ appToken }) {
     const renderLendHistory = lendHistory.map((item, i) => {
         return (
             <tr key={i}>
-                <td>{i + 1}</td>
+                <td style={{textAlign: 'center' }}>{i + 1}</td>
                 <td>{item.borrowID.itemID.name}</td>
-                <td>{item.borrowID.borrowerID}</td>
-                <td>{item.totalPrice}</td>
+                <td style={{textAlign: 'center' }}>{item.borrowID.borrowerID}</td>
+                <td style={{textAlign: 'center' }}>฿ {item.totalPrice}</td>
             </tr>
         )
     })
@@ -93,10 +93,10 @@ export default function History({ appToken }) {
 
         return (
             <tr key={i}>
-                <td>{i + 1}</td>
+                <td style={{textAlign: 'center' }}>{i + 1}</td>
                 <td>{item.borrowID.itemID.name}</td>
-                <td>{item.borrowID.lenderID}</td>
-                <td>{item.totalPrice}</td>
+                <td style={{textAlign: 'center' }}>{item.borrowID.lenderID}</td>
+                <td style={{textAlign: 'center' }}>฿ {item.totalPrice}</td>
             </tr>
         )
     })
@@ -134,16 +134,14 @@ export default function History({ appToken }) {
                     <Container>
 
                         <Table striped bordered hover size="sm">
-  
-
                             {lend && lendHistory.length != 0 &&
                                 <>
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Item</th>
-                                            <th>Borrower</th>
-                                            <th>Price</th>
+                                            <th style={{ width: '5%', textAlign: 'center' }}>#</th>
+                                            <th style={{ width: '71%' }}>Item</th>
+                                            <th style={{ width: '12%', textAlign: 'center' }}>Borrower</th>
+                                            <th style={{ width: '12%', textAlign: 'center' }}>Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -161,10 +159,10 @@ export default function History({ appToken }) {
                                 <>
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Item</th>
-                                            <th>Borrower</th>
-                                            <th>Price</th>
+                                        <th style={{ width: '5%', textAlign: 'center' }}>#</th>
+                                            <th style={{ width: '71%' }}>Item</th>
+                                            <th style={{ width: '12%', textAlign: 'center' }}>Lender</th>
+                                            <th style={{ width: '12%', textAlign: 'center' }}>Price</th>
                                         </tr>
                                     </thead>
                                     <tbody>
