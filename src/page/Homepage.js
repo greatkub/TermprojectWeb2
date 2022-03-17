@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 
 
 
-export default function Homepage({appToken}, {appId}) {
+export default function Homepage({ appToken }, { appId }) {
 
     const [allItems, setAllItems] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,9 @@ export default function Homepage({appToken}, {appId}) {
                 <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                 </img>
                 <div>
-                    {item.name}
+                    <div style={{fontWeight: 600, fontSize: 13, width: 150, marginLeft: 10, marginTop: 10}}>
+                        {item.name}
+                    </div>
                 </div>
             </div>
         )
@@ -68,9 +70,9 @@ export default function Homepage({appToken}, {appId}) {
 
     return (
 
-        <div className="box" >
+        <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
 
-            <Container className="box-header" style={{ backgroundColor: 'red' }}>
+            <Container className="box-header" >
                 <label className="items">
                     Items
                 </label>

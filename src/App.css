@@ -62,7 +62,7 @@
 }
 
 .box {
-  border: solid 2px rgb(180, 180, 180);
+  border: solid 1px rgb(180, 180, 180);
   width: 75%;
   /* height: 70%; */
   min-Height: 70%;

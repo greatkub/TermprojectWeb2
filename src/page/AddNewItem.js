@@ -15,7 +15,7 @@ import { Container } from 'react-bootstrap';
 // location: "king devid",
 // itemDesciption: "some thing"}
 
-export default function AddNewItem({ appToken,appId }) {
+export default function AddNewItem({ appToken, appId }) {
     const [itemName, setItemName] = useState('')
     const [price, setPrice] = useState(0)
     const [location, setLocation] = useState('')
@@ -27,7 +27,7 @@ export default function AddNewItem({ appToken,appId }) {
 
     function handlerClick() {
         axios.post("/items",
-            
+
             {
                 name: itemName,
                 pricePerDay: price,
@@ -40,7 +40,7 @@ export default function AddNewItem({ appToken,appId }) {
             {
                 headers: { 'auth-token': appToken }
             }
-            
+
 
         ).then((response) => {
             console.log('done')
@@ -108,46 +108,68 @@ export default function AddNewItem({ appToken,appId }) {
 
 
     return (
-        <div className="box" >
-
-            <Container className="box-header" style={{ backgroundColor: 'red' }}>
-                <label className="items">
-                    Add Item
-                </label>
+        <div style={{ height: '100vh' }}>
+            <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
 
 
-            </Container>
-            <div>
-                <div>
-                    reactFirebaseFileUpload
-                    <br />
-                    <input type="file" onChange={handleChange} />
-                    <img src={url}>
+                <Container className="box-header">
+                    <label className="items">
+                        Add Item
+                    </label>
 
-                    </img>
-                    <button onClick={handleUpload}>
-                        upload
-                    </button>
+
+                </Container>
+
+
+                <div className='container'>
+                    <div className='row'>
+
+
+                        <div class="col-sm-4" style={{ backgroundColor: 'red' }}>
+                            <input type="file" onChange={handleChange} />
+                            <img src={url}>
+
+                            </img>
+                            <button onClick={handleUpload}>
+                                upload
+                            </button>
+                        </div>
+                        {/* <br /> */}
+
+                        <div class="col-sm-8" style={{ backgroundColor: 'blue' }}>
+                            <div class="form-group">
+                                <label for="inputAddress">Name</label>
+                                <input placeholder="Enter a name" class="form-control" type="text" onChange={(e) => setItemName(e.target.value)} >
+                                </input>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Price</label>
+                                <input placeholder="Enter a price" class="form-control" type="number" onChange={(e) => setPrice(e.target.value)} >
+                                </input>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAddress">Description</label>
+                                <input placeholder="Enter a description" class="form-control" type="text" onChange={(e) => setItemDescription(e.target.value)} >
+                                </input>
+                            </div>
+                            {/* <div class="form-group">
+                               
+                            </div> */}
+
+
+
+
+                            {placelocation(location, setLocation, places, "Select place appointment")}
+
+
+                            <button onClick={() => handlerClick()}>
+                                submit
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                AddNewItem
-                <br />
-
-                <input placeholder="Enter a name" type="text" onChange={(e) => setItemName(e.target.value)} >
-                </input>
-                <input placeholder="Enter a price" type="number" onChange={(e) => setPrice(e.target.value)} >
-                </input>
-                {placelocation(location, setLocation, places, "Select place appointment")}
-                {/* <input placeholder="Enter a location" type="text" onChange={(e) => setLocation(e.target.value)} >
-            </input> */}
-                <input placeholder="Enter a description" type="text" onChange={(e) => setItemDescription(e.target.value)} >
-                </input>
-
-
-                <button onClick={() => handlerClick()}>
-                    submit
-                </button>
-
             </div>
         </div>
+
     )
 }

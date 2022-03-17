@@ -21,9 +21,9 @@ function App() {
   
 
   return (
-    <div style={{ height: '100vh', backgroundColor: '#F3FCF8' }}>
+    <div style={{ height: '100%', backgroundColor: '#F3FCF8'}}>
       {parentToken != '' &&
-        <Navbar bg="light" variant="light">
+        <Navbar bg="light" variant="light" style={{boxShadow: '0px 0px 10px -6px #000000'}}>
           <Container>
             <Navbar.Brand href={"/lendit2"}>
               <div style={{ color: '#48846F', fontWeight: '500' }}>
