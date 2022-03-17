@@ -118,16 +118,23 @@
 }
 .profile > img {
   height: 70%;
-  width: 80%;
+  width: 75%;
   margin-top: 10vh;
   margin: auto;
 }
 .userInfo {
   display:inline-block;
-  margin:auto;
+  font-size: 22px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.userInfo > div {
+  height: 6vh;
 }
 .userInfo.editBtn {
   text-align: left;
+  margin-top: 10vh;
 }
 
 .box-1 > h3 {

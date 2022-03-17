@@ -86,7 +86,7 @@ export default function Profile({ appToken }) {
             {isLoading &&
                 <div className="box" >
 
-                    <Container className="box-header" style={{ backgroundColor: 'red' }}>
+                    <Container className="box-header" style={{ backgroundColor: '#F3FCF8' }}>
                         <label className="items">
                             USER PROFILE
                         </label>
@@ -95,16 +95,25 @@ export default function Profile({ appToken }) {
                         <img src={userDetail.imageURL}>
                         </img>
                         <div className="userInfo">
-                            Name: {userDetail.firstname} {userDetail.lastname}
-                            <br />
-                            ID: {userDetail.id}
-                            <br />
-                            Email: {userDetail.email}
-                            <br />
-                            Phone: {userDetail.phoneNumber}
-                            <br />
-                            Location: {userDetail.dormLocation}
-                            <br />
+                            <div>
+                                Name: {userDetail.firstname} {userDetail.lastname}
+                            </div>
+                            <div>
+                                ID: {userDetail.id}
+                            </div>
+                            <div>
+                                Email: {userDetail.email}
+                            </div>
+                            
+                            <div>
+                                Phone: {userDetail.phoneNumber}
+                            </div>
+                            
+                            <div>
+                                Location: {userDetail.dormLocation}
+                            </div>
+                            
+                            
                             <div className="editBtn">
                                 <Button onClick={handleShow}>
                                     Edit Profile

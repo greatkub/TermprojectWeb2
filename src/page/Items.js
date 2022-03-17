@@ -1,8 +1,8 @@
 import React from 'react'
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Modal, Form } from 'react-bootstrap';
 import { makeStyles } from "@mui/styles";
 import axios from 'axios';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Params, useParams } from 'react-router-dom';
 import { findAllByDisplayValue, render } from '@testing-library/react';
 import Select from 'react-select';
@@ -24,6 +24,25 @@ export default function Items({ appToken }) {
     const [waitBorrowItems, setWaitBorrowItems] = useState([]);
     const [transactions, setTransactions] = useState([]);
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [itemNameUpdate, setItemNameUpdate] = useState();
+    const [priceUpdate, setPriceUpdate] = useState();
+    const [locationUpdate, setLocationUpdate] = useState();
+    const [descriptionUpdate, setDescriptionUpdate] = useState();
+    const [ownerIDUpdate, setOwnerID] = useState();
+    const [imageURLUpdate, setImageURL] = useState();
+    const [itemUpdate, setItemUpdate] = useState();
+
+    const itemNameRef = useRef();
+    const priceRef = useRef();
+    const locationRef = useRef();
+    const descriptionRef = useRef();
+
+    const places = [{ value: "place A", label: "place A" }, { value: "place B", label: "place B" }]
+
     useEffect(() => {
 
         //get all items of user
@@ -34,7 +53,7 @@ export default function Items({ appToken }) {
         )
             .then(response => {
                 setItems(response.data.result)
-                setAvailableItems(response.data.result.filter(item => item.avaliable == true))
+                setAvailableItems(response.data.result.filter(item => item.avaliable === true))
                 console.log("Items", items)
 
             })
@@ -62,10 +81,10 @@ export default function Items({ appToken }) {
         )
             .then(response => {
                 setPendingItems(response.data.result.filter((item) => {
-                    return item.pendingStat == false && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                    return item.pendingStat == false && !transactions.some((trans) => { return (item._id === trans.borrowID && trans.returnStatus === true) })
                 }))
                 setLendingItems(response.data.result.filter((item) => {
-                    return item.pendingStat == true && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                    return item.pendingStat == true && !transactions.some((trans) => { return (item._id === trans.borrowID && trans.returnStatus === true) })
                 }))
             })
             .catch(error => {
@@ -79,24 +98,22 @@ export default function Items({ appToken }) {
         )
             .then(response => {
                 setWaitBorrowItems(response.data.result.filter((item) => {
-                    return item.pendingStat == false && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                    return item.pendingStat == false && !transactions.some((trans) => { return (item._id === trans.borrowID && trans.returnStatus === true) })
                 }
                 ))
                 setBorrowingItems(response.data.result.filter((item) => {
-                    return item.pendingStat == true && !transactions.some((trans) => { return (item._id == trans.borrowID && trans.returnStatus == true) })
+                    return item.pendingStat == true && !transactions.some((trans) => { return (item._id === trans.borrowID && trans.returnStatus === true) })
                 }
                 ))
+
+                console.log(availableItems, pendingItems, lendingItems)
+
                 setIsLoading(true);
             })
             .catch(error => {
                 console.log('Error getting fake data: ' + error);
             })
 
-
-
-
-
-        console.log("ye", availableItems)
     }, [isLoading]);
 
     function handlerAccept(item) {
@@ -178,6 +195,68 @@ export default function Items({ appToken }) {
             })
     }
 
+    function handlerDelete(item) {
+        axios.delete("/items/" + item._id,
+            {
+                headers: { 'auth-token': appToken }
+            }
+        )
+            .then(response => {
+                console.log(response)
+                alert("success Delete")
+                window.location.reload(true);
+            })
+            .catch(error => {
+                console.log('Error getting fake data: ' + error);
+            })
+
+            //delete borrows
+            //delete transactions
+
+
+
+    }
+
+    function handlerUpdate(item) {
+        setItemNameUpdate(item.name)
+        setPriceUpdate(item.pricePerDay)
+        setLocationUpdate(item.location)
+        setDescriptionUpdate(item.itemDesciption)
+        setOwnerID(item.ownerID)
+        setImageURL(item.imageURL)
+        setItemUpdate(item._id)
+        handleShow();
+    }
+
+    function confirmUpdate() {
+        const obj = {
+            name: itemNameRef.current.value,
+            pricePerDay: priceRef.current.value,
+            ownerID: ownerIDUpdate,
+            imageURL: imageURLUpdate,
+            location: locationRef.current.value,
+            itemDescription: descriptionRef.current.value
+        }
+
+        axios.put(`/items/${itemUpdate}`,
+            obj,
+            {
+                headers: { 'auth-token': appToken }
+            }
+        ).then((response) => {
+            console.log('done')
+            console.log(response);
+            alert("Success Update Item");
+            handleClose();
+            window.location.reload(true);
+
+        })
+            .catch(error => {
+                console.log(error.response)
+                alert("fail Edit")
+            })
+    }
+
 
 
     const renderPendingItems = pendingItems.map((item, i) => {
@@ -205,8 +284,6 @@ export default function Items({ appToken }) {
 
                 </div>
 
-
-
             </div>
         )
     })
@@ -232,16 +309,31 @@ export default function Items({ appToken }) {
     const renderAvailableItems = availableItems.map((item, i) => {
         return (
             <div className='box-card3' key={i}>
-                <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                </img>
-                <div>
-                    {item.name}
-                </div>
-                <div>
-                    Availability: {item.avaliable + ''}
+                <div className='upper'>
+                    <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                    </img>
+                    <div>
+                        {item.name}
+                    </div>
+                    <div>
+                        Location: {item.location}
+                    </div>
+                    <div>
+                        Availability: {item.avaliable + ''}
+                    </div>
+
                 </div>
 
+                <div className="lower">
+                    <div>
+                        <Button variant="info" style={{ width: '50%' }} onClick={() => handlerUpdate(item)}>Edit</Button>
+                        <Button variant="danger" style={{ width: '50%' }} onClick={() => handlerDelete(item)}>Delete</Button>
+                    </div>
+
+                </div>
             </div>
+
+
         )
     })
 
@@ -326,17 +418,8 @@ export default function Items({ appToken }) {
                     </Navbar>
 
 
-
-
-
                     <div className="box">
                         <div className="box-1" style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
-                            {/* {lend ?
-                                [(renderPendingItems), (renderLendingItems), (renderAvalaibleItems)]
-                                :
-                                [(renderWaitingBorrow), (renderBorrowing)]
-                            } */}
-
 
                             {lend && pendingItems.length != 0 &&
                                 <>
@@ -384,6 +467,31 @@ export default function Items({ appToken }) {
 
                         </div>
                     </div>
+                    <Modal centered show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Edit Item</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control type="text" defaultValue={itemNameUpdate} ref={itemNameRef} />
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control type="text" defaultValue={priceUpdate} ref={priceRef} />
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control type="email" defaultValue={descriptionUpdate} ref={descriptionRef} />
+                                <Form.Label>Location</Form.Label>
+                                <Form.Control type="text" defaultValue={locationUpdate} ref={locationRef} />
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Close
+                            </Button>
+                            <Button variant="primary" onClick={confirmUpdate}>
+                                Save Changes
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
 
                 </>
             }
