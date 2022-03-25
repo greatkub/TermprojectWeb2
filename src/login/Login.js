@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 export default function Login(props) {
+    const API_URI = process.env.REACT_APP_API_URL;
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -67,7 +68,7 @@ export default function Login(props) {
             alert('Password not match')
         }
         else {
-            axios.post("/auth/register",
+            axios.post(`${API_URI}/auth/register`,
                 {
                     id: idRef1,
                     password: password1Ref1,
@@ -100,7 +101,7 @@ export default function Login(props) {
     
 
     function handlerClick() {
-        axios.post("/auth/login",
+        axios.post(`${API_URI}/auth/login`,
             {
                 id: id,
                 password: password,

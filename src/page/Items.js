@@ -11,6 +11,8 @@ import parse from 'html-react-parser';
 
 
 export default function Items({ appToken }) {
+    const API_URI = process.env.REACT_APP_API_URL;
+
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [lend, setLend] = useState(true);
@@ -46,7 +48,7 @@ export default function Items({ appToken }) {
     useEffect(() => {
 
         //get all items of user
-        axios.get(`/items?userId=${userid}`,
+        axios.get(`${API_URI}/items?userId=${userid}`,
             {
                 headers: { 'auth-token': appToken }
             }
@@ -61,7 +63,7 @@ export default function Items({ appToken }) {
                 console.log('Error getting fake data: ' + error);
             })
         //get all transactions
-        axios.get(`/transactions/${userid}`,
+        axios.get(`${API_URI}/transactions/${userid}`,
             {
                 headers: { 'auth-token': appToken }
             }
@@ -74,7 +76,7 @@ export default function Items({ appToken }) {
                 console.log('Error getting fake data: ' + error);
             })
         // Get lended Items
-        axios.get(`/borrows/lender?userId=${userid}`,
+        axios.get(`${API_URI}/borrows/lender?userId=${userid}`,
             {
                 headers: { 'auth-token': appToken }
             }
@@ -91,7 +93,7 @@ export default function Items({ appToken }) {
                 console.log('Error getting fake data: ' + error);
             })
         //get all borrowed Items
-        axios.get(`/borrows/borrower?userId=${userid}`,
+        axios.get(`${API_URI}/borrows/borrower?userId=${userid}`,
             {
                 headers: { 'auth-token': appToken }
             }
@@ -118,7 +120,7 @@ export default function Items({ appToken }) {
 
     function handlerAccept(item) {
         console.log("click", item);
-        axios.patch("/borrows/lender/accept",
+        axios.patch(`${API_URI}/borrows/lender/accept`,
             {
                 borrowID: item._id
             },
@@ -131,7 +133,7 @@ export default function Items({ appToken }) {
                     if (item2.name == item.itemID.name) {
                         var price = item2.pricePerDay * item.borrowDuration
                         console.log("price: ", price)
-                        axios.post("/transactions",
+                        axios.post(`${API_URI}/transactions`,
                             {
                                 borrowID: item._id,
                                 totalPrice: price
@@ -162,7 +164,7 @@ export default function Items({ appToken }) {
             console.log(trans)
 
             if (trans.borrowInfo.borrowID == item._id) {
-                axios.patch("/transactions/" + trans._id,
+                axios.patch(`${API_URI}/transactions/` + trans._id,
                     {
                         _id: trans._id
                     },
@@ -183,7 +185,7 @@ export default function Items({ appToken }) {
     }
 
     function handlerDecline(item) {
-        axios.delete("/borrows/" + item._id,
+        axios.delete(`${API_URI}/borrows/` + item._id,
             {
                 headers: { 'auth-token': appToken }
             }
@@ -199,7 +201,7 @@ export default function Items({ appToken }) {
     }
 
     function handlerDelete(item) {
-        axios.delete("/items/" + item._id,
+        axios.delete(`${API_URI}/items/` + item._id,
             {
                 headers: { 'auth-token': appToken }
             }
@@ -238,7 +240,7 @@ export default function Items({ appToken }) {
             itemDescription: descriptionRef.current.value
         }
 
-        axios.put(`/items/${itemUpdate}`,
+        axios.put(`${API_URI}/items/${itemUpdate}`,
             obj,
             {
                 headers: { 'auth-token': appToken }

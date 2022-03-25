@@ -10,6 +10,8 @@ import Select from 'react-select'
 
 
 export default function ItemDetail({ appToken, appId }) {
+    const API_URI = process.env.REACT_APP_API_URL;
+
     const [itemDetail, setitemDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [duration, setDuration] = useState(1);
@@ -20,7 +22,7 @@ export default function ItemDetail({ appToken, appId }) {
     const { id } = useParams()
 
     function handlerClick() {
-        axios.post("/borrows/create-borrow",
+        axios.post(`${API_URI}/borrows/create-borrow`,
             // expenseLists
             {
                 itemID: id,
@@ -48,7 +50,7 @@ export default function ItemDetail({ appToken, appId }) {
     }
 
     useEffect(() => {
-        axios(`/items/${id}`)
+        axios(`${API_URI}/items/${id}`)
             .then(response => {
                 console.log("hi" + response.data)
                 console.log(response.data.result)

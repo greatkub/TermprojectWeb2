@@ -9,6 +9,8 @@ import { findAllByDisplayValue } from '@testing-library/react';
 
 
 export default function Profile({ appToken }) {
+    const API_URI = process.env.REACT_APP_API_URL;
+
     const [userDetail, setuserDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -21,6 +23,8 @@ export default function Profile({ appToken }) {
     const { userid } = useParams()
 
     function editProfile() {
+        
+
         const firstname1 = firstnameRef.current.value;
         const lastname1 = lastnameRef.current.value;
         const email1 = emailRef.current.value;
@@ -37,7 +41,8 @@ export default function Profile({ appToken }) {
             phoneNumber: phoneNum1,
         }
 
-        axios.put(`/users/${userid}`,
+
+        axios.put(`${API_URI}/users/${userid}`,
             obj,
             {
                 headers: { 'auth-token': appToken }
@@ -57,7 +62,7 @@ export default function Profile({ appToken }) {
     }
 
     useEffect(() => {
-        axios(`/users/${userid}`, {
+        axios(`${API_URI}/users/${userid}`, {
             headers:
             {
                 'auth-token': appToken

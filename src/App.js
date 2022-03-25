@@ -69,7 +69,6 @@ function App() {
 
           }} />} />
 
-
           <Route exact path="/lendit2" element={<Homepage appToken={parentToken} appId={parentId} />} />
           <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} appId={parentId} />} />
           <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} appId={parentId} />} />

@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react'
 
 
 export default function Homepage({ appToken }, { appId }) {
+    const API_URI = process.env.REACT_APP_API_URL;
 
     const [allItems, setAllItems] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ export default function Homepage({ appToken }, { appId }) {
     // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTEwMTU1IiwiaWF0IjoxNjQ2MDUyNDQxfQ.xD0PL9dsvz015Eb3z56vXnWPdK13NJpnY__QJBNaJrE"
     useEffect(() => {
         (async () => {
-            await axios('/items',
+            await axios(`${API_URI}/items`,
                 {
                     headers:
                     {

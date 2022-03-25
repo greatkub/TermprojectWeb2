@@ -16,6 +16,8 @@ import { Container } from 'react-bootstrap';
 // itemDesciption: "some thing"}
 
 export default function AddNewItem({ appToken, appId }) {
+    const API_URI = process.env.REACT_APP_API_URL;
+
     const [itemName, setItemName] = useState('')
     const [price, setPrice] = useState(0)
     const [location, setLocation] = useState('')
@@ -26,7 +28,8 @@ export default function AddNewItem({ appToken, appId }) {
     const places = [{ value: "place A", label: "place A" }, { value: "place B", label: "place B" }]
 
     function handlerClick() {
-        axios.post("/items",
+
+        axios.post(`${API_URI}/items`,
 
             {
                 name: itemName,

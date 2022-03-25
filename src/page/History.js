@@ -11,6 +11,8 @@ import useLocalStorage from 'use-local-storage';
 
 
 export default function History({ appToken }) {
+    const API_URI = process.env.REACT_APP_API_URL;
+
     const [historyItems, setHistoryItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [lend, setLend] = useState(true);
@@ -24,7 +26,7 @@ export default function History({ appToken }) {
     useEffect(() => {
         // get transactions of user
         try {
-            axios.get(`/transactions/${userid}`,
+            axios.get(`${API_URI}/transactions/${userid}`,
                 {
                     headers: { 'auth-token': appToken }
                 }
@@ -36,7 +38,7 @@ export default function History({ appToken }) {
                     var count = 0;
                     if (result.length != 0) {
                         result.forEach(item => {
-                            axios.get(`/transactions/detail/${item._id}`,
+                            axios.get(`${API_URI}/transactions/detail/${item._id}`,
                                 {
                                     headers: { 'auth-token': appToken }
                                 }
