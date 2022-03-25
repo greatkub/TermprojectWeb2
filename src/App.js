@@ -18,12 +18,26 @@ import useLocalStorage from 'use-local-storage';
 function App() {
   const [parentId, setParentId] = useLocalStorage()
   const [parentToken, setParentToken] = useLocalStorage('');
-  
+  const [userId, setUserId] = useState();
+
+  // useEffect(() => {
+  //   const loggedInUser = localStorage.getItem("parentToken");
+  //   if (loggedInUser) {
+  //     setUserId(loggedInUser)
+  //     console.log(loggedInUser)
+  //   }
+  // }, [])
+
+
+  // const handleLogout = () => {
+  //   setUserId();
+  //   localStorage.clear();
+  // }
 
   return (
-    <div style={{ height: '100%', backgroundColor: '#F3FCF8'}}>
-      {parentToken != '' &&
-        <Navbar bg="light" variant="light" style={{boxShadow: '0px 0px 10px -6px #000000'}}>
+    <div style={{ height: '100%', minHeight: '100vh', backgroundColor: '#F3FCF8' }}>
+      {parentToken  &&
+        <Navbar bg="light" variant="light" style={{ boxShadow: '0px 0px 10px -6px #000000' }}>
           <Container>
             <Navbar.Brand href={"/lendit2"}>
               <div style={{ color: '#48846F', fontWeight: '500' }}>
@@ -46,7 +60,16 @@ function App() {
 
       <Router>
         <Routes>
-          <Route exact path='/lendit' element={<Login appId={parentId => setParentId(parentId)} appToken={parentToken => setParentToken(parentToken)} />} />
+          <Route exact path='/lendit' element={<Login appId={parentId => {
+            // localStorage.setItem('parentId', `"${parentId}"`)
+            setParentId(parentId);
+          }} appToken={parentToken => {
+            // localStorage.setItem('parentToken', `"${parentToken}"`)
+            setParentToken(parentToken);
+
+          }} />} />
+
+
           <Route exact path="/lendit2" element={<Homepage appToken={parentToken} appId={parentId} />} />
           <Route exact path="/itemDetail/:id" element={<ItemDetail appToken={parentToken} appId={parentId} />} />
           <Route exact path="/addItem" element={<AddNewItem appToken={parentToken} appId={parentId} />} />

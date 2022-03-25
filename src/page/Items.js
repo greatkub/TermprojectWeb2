@@ -156,9 +156,12 @@ export default function Items({ appToken }) {
     }
 
     function handlerReturn(item) {
-        console.log("click", item);
+        console.log("click", item, appToken);
         transactions.forEach(trans => {
-            if (trans.borrowID == item._id) {
+
+            console.log(trans)
+
+            if (trans.borrowInfo.borrowID == item._id) {
                 axios.patch("/transactions/" + trans._id,
                     {
                         _id: trans._id
@@ -212,9 +215,6 @@ export default function Items({ appToken }) {
 
             //delete borrows
             //delete transactions
-
-
-
     }
 
     function handlerUpdate(item) {

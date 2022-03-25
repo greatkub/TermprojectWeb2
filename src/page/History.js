@@ -42,7 +42,7 @@ export default function History({ appToken }) {
                                 }
                             )
                                 .then(response => {
-                                    if (response.data.result.borrowID.lenderID == userid) {
+                                    if (response.data.result.borrowInfo.lenderID == userid) {
                                         console.log("LendHistory", response.data.result)
                                         // lendHistory.push(response.data.result);
                                         lendHistory.push(response.data.result);
@@ -51,7 +51,7 @@ export default function History({ appToken }) {
 
                                     }
                                     else {
-                                        // console.log("BorrowedHistory", response.data.result)
+                                        console.log("BorrowedHistory", response.data.result)
                                         // borrowedHistory.push(response.data.result);
                                         borrowedHistory.push(response.data.result);
                                         setBorrowedHistory(borrowedHistory);
@@ -83,8 +83,8 @@ export default function History({ appToken }) {
         return (
             <tr key={i}>
                 <td style={{textAlign: 'center' }}>{i + 1}</td>
-                <td>{item.borrowID.itemID.name}</td>
-                <td style={{textAlign: 'center' }}>{item.borrowID.borrowerID}</td>
+                <td>{item.itemInfo.name}</td>
+                <td style={{textAlign: 'center' }}>{item.borrowInfo.borrowerID}</td>
                 <td style={{textAlign: 'center' }}>฿ {item.totalPrice}</td>
             </tr>
         )
@@ -94,8 +94,8 @@ export default function History({ appToken }) {
         return (
             <tr key={i}>
                 <td style={{textAlign: 'center' }}>{i + 1}</td>
-                <td>{item.borrowID.itemID.name}</td>
-                <td style={{textAlign: 'center' }}>{item.borrowID.lenderID}</td>
+                <td>{item.itemInfo.name}</td>
+                <td style={{textAlign: 'center' }}>{item.borrowInfo.lenderID}</td>
                 <td style={{textAlign: 'center' }}>฿ {item.totalPrice}</td>
             </tr>
         )
