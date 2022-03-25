@@ -79,9 +79,7 @@ export default function ItemDetail({ appToken, appId }) {
     }
 
     return (
-
-
-        <div style={{ height: '100vh' }}>
+        <div>
             {isLoading &&
                 <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
                     <Container className="box-header">
@@ -92,34 +90,46 @@ export default function ItemDetail({ appToken, appId }) {
                     <div className='container'>
                         <div className='row'>
 
-                            <div class="col-sm-4" >
+                            <div class="col-sm-5" >
                                 <img src={itemDetail.imageURL} >
                                 </img>
                             </div>
 
-                            <div class="col-sm-8" >
+                            <div class="col-sm-7" >
 
                                 <div>
-                                    {itemDetail.name}
-                                    <br />
-                                    {itemDetail.ownerID}
-                                    <br />
-                                    {itemDetail.itemDesciption}
-                                    <br />
-                                    {itemDetail.location}
-                                    <br />
-                                    {itemDetail.pricePerDay}
-                                    <br />
-                                    owner,item,Description,price
+                                    <div>
+                                        Item: {itemDetail.name}
+                                    </div>
+
+                                    <div>
+                                        Owner: {itemDetail.ownerID}
+                                    </div>
+
+                                    <div>
+                                        Detail: {itemDetail.itemDesciption}
+                                    </div>
+
+                                    <div>
+                                        Location: {itemDetail.location}
+                                    </div>
+
+                                    <div>
+                                        price/day: {itemDetail.pricePerDay} ฿
+                                    </div>
+
+                                    
+
                                 </div>
                                 {itemDetail.avaliable && itemDetail.ownerID != appId &&
                                     <div>
-                                        {thisItemDuration(duration, setDuration, days, "set your duration")}
-                                        <button onClick={() => handlerClick()}>
-                                            Let's borrow
-                                        </button>
+                                        {thisItemDuration(duration, setDuration, days, "Set your duration")}
+                                        <div>
+                                            <Button onClick={() => handlerClick()}>
+                                                Let's borrow
+                                            </Button>
+                                        </div>
                                     </div>
-
                                 }
                             </div>
                         </div>

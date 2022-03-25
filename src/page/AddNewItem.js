@@ -25,7 +25,7 @@ export default function AddNewItem({ appToken, appId }) {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
-    const places = [{ value: "place A", label: "place A" }, { value: "place B", label: "place B" }]
+    const places = [{ value: "King Court", label: "King Court" }, { value: "AU Mall", label: "AU Mall" }, { value: "CL 1st Floor", label: "CL 1st Floor" }, { value: "VMS Building", label: "VMS Building" }]
 
     function handlerClick() {
 
@@ -111,7 +111,7 @@ export default function AddNewItem({ appToken, appId }) {
 
 
     return (
-        <div style={{ height: '100vh' }}>
+        <div>
             <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
 
 

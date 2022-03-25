@@ -43,7 +43,6 @@ function App() {
               <div style={{ color: '#48846F', fontWeight: '500' }}>
                 LENDIT
               </div>
-
             </Navbar.Brand>
             <Nav className="me-auto">
               <Nav.Link href={"/Profile/" + parentId} >Profile</Nav.Link>
