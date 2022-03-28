@@ -84,10 +84,10 @@ export default function History({ appToken }) {
     const renderLendHistory = lendHistory.map((item, i) => {
         return (
             <tr key={i}>
-                <td style={{textAlign: 'center' }}>{i + 1}</td>
+                <td style={{ textAlign: 'center' }}>{i + 1}</td>
                 <td>{item.itemInfo.name}</td>
-                <td style={{textAlign: 'center' }}>{item.borrowInfo.borrowerID}</td>
-                <td style={{textAlign: 'center' }}>฿ {item.totalPrice}</td>
+                <td style={{ textAlign: 'center' }}>{item.borrowInfo.borrowerID}</td>
+                <td style={{ textAlign: 'center' }}>฿ {item.totalPrice}</td>
             </tr>
         )
     })
@@ -95,20 +95,20 @@ export default function History({ appToken }) {
 
         return (
             <tr key={i}>
-                <td style={{textAlign: 'center' }}>{i + 1}</td>
+                <td style={{ textAlign: 'center' }}>{i + 1}</td>
                 <td>{item.itemInfo.name}</td>
-                <td style={{textAlign: 'center' }}>{item.borrowInfo.lenderID}</td>
-                <td style={{textAlign: 'center' }}>฿ {item.totalPrice}</td>
+                <td style={{ textAlign: 'center' }}>{item.borrowInfo.lenderID}</td>
+                <td style={{ textAlign: 'center' }}>฿ {item.totalPrice}</td>
             </tr>
         )
     })
 
     return (
 
-        <div>
+        <div style={{ zIndex: 3, position: 'absolute', width: '100%' }}>
             {isLoading &&
                 <>
-                    <Navbar bg="light" variant="light">
+                    <Navbar bg="light" variant="light" style={{ height: 60, opacity: 0.9 }}>
                         <Container>
                             <Navbar.Brand style={{ display: 'flex' }}>
                                 {lend ? (<>
@@ -134,54 +134,55 @@ export default function History({ appToken }) {
 
 
                     <Container>
+                        <div className="box" style={{ backgroundColor: '#FFFFFF', position: 'absolute', left: '50%', marginLeft: '-37.5%', zIndex: 1, opacity: 0.95, height: '60vh', overflowY: 'scroll', top: '50%', marginTop: '6%' }}>
 
-                        <Table striped bordered hover size="sm">
-                            {lend && lendHistory.length != 0 &&
-                                <>
-                                    <thead>
-                                        <tr>
-                                            <th style={{ width: '5%', textAlign: 'center' }}>#</th>
-                                            <th style={{ width: '71%' }}>Item</th>
-                                            <th style={{ width: '12%', textAlign: 'center' }}>Borrower</th>
-                                            <th style={{ width: '12%', textAlign: 'center' }}>Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {renderLendHistory}
-                                    </tbody>
-                                </>
-                            }
-                            {lend && lendHistory.length == 0 &&
-                                <>
-                                    <h3>No Lend History record</h3>
-                                </>
-                            }
+                            <Table striped bordered hover size="sm" style={{ backgroundColor: 'white'}}>
+                                {lend && lendHistory.length != 0 &&
+                                    <>
+                                        <thead>
+                                            <tr>
+                                                <th style={{ width: '5%', textAlign: 'center' }}>#</th>
+                                                <th style={{ width: '71%' }}>Item</th>
+                                                <th style={{ width: '12%', textAlign: 'center' }}>Borrower</th>
+                                                <th style={{ width: '12%', textAlign: 'center' }}>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {renderLendHistory}
+                                        </tbody>
+                                    </>
+                                }
+                                {lend && lendHistory.length == 0 &&
+                                    <>
+                                        <h3>No Lend History record</h3>
+                                    </>
+                                }
 
-                            {!lend && borrowedHistory.length != 0 &&
-                                <>
-                                    <thead>
-                                        <tr>
-                                        <th style={{ width: '5%', textAlign: 'center' }}>#</th>
-                                            <th style={{ width: '71%' }}>Item</th>
-                                            <th style={{ width: '12%', textAlign: 'center' }}>Lender</th>
-                                            <th style={{ width: '12%', textAlign: 'center' }}>Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {renderBorrowedHistory}
-                                    </tbody>
-                                </>
-                            }
-                            {lend && borrowedHistory.length == 0 &&
-                                <>
-                                    <h3>No Borrowed History record</h3>
-                                </>
-                            }
+                                {!lend && borrowedHistory.length != 0 &&
+                                    <>
+                                        <thead>
+                                            <tr>
+                                                <th style={{ width: '5%', textAlign: 'center' }}>#</th>
+                                                <th style={{ width: '71%' }}>Item</th>
+                                                <th style={{ width: '12%', textAlign: 'center' }}>Lender</th>
+                                                <th style={{ width: '12%', textAlign: 'center' }}>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {renderBorrowedHistory}
+                                        </tbody>
+                                    </>
+                                }
+                                {lend && borrowedHistory.length == 0 &&
+                                    <>
+                                        <h3>No Borrowed History record</h3>
+                                    </>
+                                }
 
 
 
-                        </Table>
-
+                            </Table>
+                        </div>
                     </Container>
                 </>
             }

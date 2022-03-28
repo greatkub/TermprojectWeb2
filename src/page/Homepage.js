@@ -42,7 +42,10 @@ export default function Homepage({ appToken }, { appId }) {
 
     }, []);
 
+    function handlerScrollUp() {
+        window.scrollTo(0, 0)
 
+    }
     function searchItem() {
         var searchbar = document.getElementById('searchBar').value.toLowerCase();
         var filter = allItems.filter(item => {
@@ -71,29 +74,31 @@ export default function Homepage({ appToken }, { appId }) {
 
     return (
 
-        <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="box" style={{ backgroundColor: '#FFFFFF', position: 'absolute', left: '50%', marginLeft: '-37.5%' ,zIndex: 1,   opacity: 0.95, height: '80vh', overflowY: 'scroll'}}>
 
             <Container className="box-header" >
-                <label className="items">
+                <label className="items" style={{position: 'absolute', left: 20, top: 20, fontWeight: 400}}>
                     Items
                 </label>
                 {/* <button onClick={}> 
 
                 </button> */}
 
-                <div className="form-group search">
-                    <input id="searchBar" type="text" className="form-control" placeholder="Search" onChange={searchItem} />
+                <div className="form-group search" style={{top: 6, right: 40, position: 'absolute'}}>
+                    <input id="searchBar" type="text" className="form-control" placeholder="Search" onChange={searchItem}  />
                     <span className="fa fa-search form-control-feedback"></span>
                 </div>
             </Container>
 
             {isLoading &&
-                <div style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
+                // <div style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', left: '50%', marginLeft: '4%', marginTop: '2%'}}>
+
                     {renderItems}
                 </div>
             }
 
-
+        {/* <button onClick={() => {handlerScrollUp()}}/> */}
         </div>
     )
 }

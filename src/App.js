@@ -36,24 +36,36 @@ function App() {
 
   return (
     <div style={{ height: '100%', minHeight: '100vh', backgroundColor: '#F3FCF8' }}>
-      {parentToken  &&
-        <Navbar bg="light" variant="light" style={{ boxShadow: '0px 0px 10px -6px #000000' }}>
+      {/* {parentToken  && */}
+     <div style={{ backgroundColor: 'black', width: '100%', height: '100vh', zIndex: 1, opacity: 0.4, position: 'absolute' }}></div>
+
+      <img src="https://www.ikea.com/images/a-bright-home-office-with-a-white-desk-a-white-yellow-green--65f1b5ed488093b71b665d1dd53274c1.jpg?f=sg"
+        style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 0 }} /> 
+      {parentToken &&
+
+        <Navbar bg="light" variant="light" style={{ boxShadow: '0px 0px 10px -6px #000000', height: 60, zIndex: 4,opacity: 0.9 }}>
           <Container>
             <Navbar.Brand href={"/lendit2"}>
               <div style={{ color: '#48846F', fontWeight: '500' }}>
                 LENDIT
               </div>
             </Navbar.Brand>
+            {/* {parentToken && */}
+
             <Nav className="me-auto">
               <Nav.Link href={"/Profile/" + parentId} >Profile</Nav.Link>
               <Nav.Link href="/addItem">Add Item</Nav.Link>
               <Nav.Link href={"/Items/" + parentId} >Items</Nav.Link>
               <Nav.Link href={"/History/" + parentId} >History</Nav.Link>
             </Nav>
+            {/* } */}
+            {/* {parentToken && */}
             <Navbar.Collapse className="justify-content-end">
               <Nav.Link href="/lendit" onClick={() => { setParentToken('') }}>LOGOUT</Nav.Link>
             </Navbar.Collapse>
+            {/* } */}
           </Container>
+
         </Navbar>
       }
 

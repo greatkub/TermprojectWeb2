@@ -3,7 +3,8 @@ import axios from 'axios'
 import { storage } from '../firebase/fire';
 import Select from 'react-select';
 import { Container } from 'react-bootstrap';
-
+import { Button } from 'bootstrap';
+import { FaRegImage } from "react-icons/fa";
 // path:/items
 
 // body:
@@ -28,16 +29,16 @@ export default function AddNewItem({ appToken, appId }) {
     const places = [{ value: "King Court", label: "King Court" }, { value: "AU Mall", label: "AU Mall" }, { value: "CL 1st Floor", label: "CL 1st Floor" }, { value: "VMS Building", label: "VMS Building" }]
 
     function handlerClick() {
-
+        console.log(itemDesciption)
         axios.post(`${API_URI}/items`,
 
             {
                 name: itemName,
-                pricePerDay: price,
+                pricePerDay: parseInt(price),
                 ownerID: appId,
                 imageURL: url,
                 location: location.value,
-                itemDescription: "itemDesciption"
+                itemDesciption: itemDesciption
 
             },
             {
@@ -54,15 +55,15 @@ export default function AddNewItem({ appToken, appId }) {
         })
             .catch(error => {
                 console.log(error.response)
-                alert("fail Edit")
+                alert(error.response.data.message)
             })
     }
 
 
     function placelocation(get, set, data, text) {
         return (
-            <div>
-                <div>
+            <div >
+                <div style={{ marginBottom: 6 }}>
                     {text}
                 </div>
                 <Select
@@ -78,33 +79,57 @@ export default function AddNewItem({ appToken, appId }) {
 
     const handleChange = e => {
         if (e.target.files[0]) {
-            setImage(e.target.files[0]);
+            // setImage(e.target.files[0]);
+            const uploadTask = storage.ref(`images/${e.target.files[0].name}`).put(e.target.files[0]);
+            uploadTask.on(
+                "state_changed",
+                snapshot => {
+                    const progress = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                    setProgress(progress);
+                },
+                error => {
+                    console.log(error);
+                },
+                () => {
+                    storage
+                        .ref("images")
+                        .child(e.target.files[0].name)
+                        .getDownloadURL()
+                        .then(url => {
+                            setUrl(url);
+                            console.log(url)
+                        });
+                }
+            );
         }
     };
 
     const handleUpload = () => {
-        const uploadTask = storage.ref(`images/${image.name}`).put(image);
-        uploadTask.on(
-            "state_changed",
-            snapshot => {
-                const progress = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setProgress(progress);
-            },
-            error => {
-                console.log(error);
-            },
-            () => {
-                storage
-                    .ref("images")
-                    .child(image.name)
-                    .getDownloadURL()
-                    .then(url => {
-                        setUrl(url);
-                    });
-            }
-        );
+        // const uploadTask = storage.ref(`images/${e.target.files[0].name}`).put(e.target.files[0]);
+        // uploadTask.on(
+        //     "state_changed",
+        //     snapshot => {
+        //         const progress = Math.round(
+        //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        //         );
+        //         setProgress(progress);
+        //     },
+        //     error => {
+        //         console.log(error);
+        //     },
+        //     () => {
+        //         storage
+        //             .ref("images")
+        //             .child(e.target.files[0].name)
+        //             .getDownloadURL()
+        //             .then(url => {
+        //                 setUrl(url);
+        //                 console.log(url)
+        //             });
+        //     }
+        // );
     };
 
     console.log("image: ", image);
@@ -112,7 +137,7 @@ export default function AddNewItem({ appToken, appId }) {
 
     return (
         <div>
-            <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
+            <div className="box" style={{ backgroundColor: '#FFFFFF', zIndex: 3, position: 'absolute', left: '50%', marginLeft: '-37.5%', top: '10%', opacity: 0.95 }}>
 
 
                 <Container className="box-header">
@@ -128,32 +153,42 @@ export default function AddNewItem({ appToken, appId }) {
                     <div className='row'>
 
 
-                        <div class="col-sm-4" style={{ backgroundColor: 'red' }}>
-                            <input type="file" onChange={handleChange} />
-                            <img src={url}>
+                        <div class="col-sm-6" style={{ position: 'relative' }}>
+                            {/* <input type="file" onChange={handleChange} /> */}
+                            {url != "" ?
+                                <img src={url} style={{ width: '92%', height: '94%', position: 'absolute', left: '50%', marginLeft: '-46%' }}>
 
-                            </img>
-                            <button onClick={handleUpload}>
+                                </img>
+                                :
+                                <FaRegImage style={{ width: '92%', height: '94%', position: 'absolute', left: '50%', marginLeft: '-46%', opacity: 0.5 }}>
+
+                                </FaRegImage>
+                            }
+
+
+
+                            {/* <button onClick={handleUpload}>
                                 upload
-                            </button>
+                            </button> */}
                         </div>
                         {/* <br /> */}
 
-                        <div class="col-sm-8" style={{ backgroundColor: 'blue' }}>
-                            <div class="form-group">
-                                <label for="inputAddress">Name</label>
+                        <div class="col-sm-6" >
+                            <div class="form-group" style={{ marginBottom: 10, width: '96%' }}>
+                                <label for="inputAddress" style={{ marginBottom: 6 }}>Name</label>
                                 <input placeholder="Enter a name" class="form-control" type="text" onChange={(e) => setItemName(e.target.value)} >
                                 </input>
                             </div>
-                            <div class="form-group">
-                                <label for="inputAddress">Price</label>
+                            <div class="form-group" style={{ marginBottom: 10, width: '96%' }}>
+                                <label for="inputAddress" style={{ marginBottom: 6 }}>Price</label>
                                 <input placeholder="Enter a price" class="form-control" type="number" onChange={(e) => setPrice(e.target.value)} >
                                 </input>
                             </div>
-                            <div class="form-group">
-                                <label for="inputAddress">Description</label>
-                                <input placeholder="Enter a description" class="form-control" type="text" onChange={(e) => setItemDescription(e.target.value)} >
-                                </input>
+                            <div class="form-group" style={{ marginBottom: 10, width: '96%' }}>
+                                <label for="inputAddress" style={{ marginBottom: 6 }}>Description</label>
+                                <textarea placeholder="Enter a description" class="form-control" type="text" onChange={(e) => setItemDescription(e.target.value)}
+                                    style={{ height: 100 }} >
+                                </textarea>
                             </div>
                             {/* <div class="form-group">
                                
@@ -161,12 +196,25 @@ export default function AddNewItem({ appToken, appId }) {
 
 
 
+                            <div style={{ width: '96%' }}>
+                                {placelocation(location, setLocation, places, "Select place appointment")}
 
-                            {placelocation(location, setLocation, places, "Select place appointment")}
+                            </div>
 
+                            <input type="file" onChange={handleChange} style={{ position: 'absolute', bottom: 30 }}>
 
-                            <button onClick={() => handlerClick()}>
-                                submit
+                            </input>
+
+                            <button onClick={() => handlerClick()}
+                                style={{
+                                    position: 'absolute', right: 20, bottom: 20, height: 45,
+                                    width: 200,
+                                    borderRadius: 8,
+                                    backgroundColor: '#48846F',
+                                    color: '#FFFFFF',
+                                    border: '0px solid #FFFFFF'
+                                }}>
+                                Add
                             </button>
                         </div>
                     </div>

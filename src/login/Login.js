@@ -12,8 +12,14 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#FFFFFF',
         borderRadius: 28,
         border: '1px solid #D8D8D8',
-        margin: 'auto',
-        position: 'relative'
+        top: '50%',
+        left: '50%',
+        position: 'absolute',
+        marginLeft: -293.5,
+        marginTop: 120,
+        boxShadow: '0px 0px 20px -18px #000000',
+        zIndex: 4,
+        opacity: 0.9
     },
     inputframe: {
         width: 398,
@@ -37,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
         right: -3,
         position: 'absolute',
         top: 30
-    }
+    },
+ 
 }));
 export default function Login(props) {
     const API_URI = process.env.REACT_APP_API_URL;
@@ -132,7 +139,7 @@ export default function Login(props) {
 
     //username 6210015, password 1234567
     return (
-        <div style={{ height: '100%', width: '100%' }}>
+        <div >
 
             <div className={classes.paper} style={{ top: '12%' }}>
                 <div className={classes.art1} />
@@ -145,24 +152,24 @@ export default function Login(props) {
                     </div>
                     <div style={{ height: 50 }} />
 
-                    <input placeholder='  username' type='text' className={classes.inputframe} onChange={(e) => setId(e.target.value)}>
+                    <input placeholder='  6210015' type='text' className={classes.inputframe} onChange={(e) => setId(e.target.value)}>
 
                     </input>
                     <div style={{ height: 14 }} />
-                    <input placeholder='  password' type='password' className={classes.inputframe} onChange={(e) => setPassword(e.target.value)}>
+                    <input placeholder='  1234567' type='password' className={classes.inputframe} onChange={(e) => setPassword(e.target.value)}>
 
                     </input>
                     <div style={{ height: 30 }} />
                     <button className={classes.login_btn} onClick={() => handlerClick()}>
                         Login
                     </button>
-                    <div style={{ bottom: -120, position: 'absolute', textAlign: 'center', width: '100%' }}>
+                    <div style={{ bottom: -120, position: 'absolute', textAlign: 'center', width: '100%', fontWeight: 600, color: '#FFFFFF' }}>
                         Don’t have an account?
-                        <a className="signUp" onClick={handleShow}> Sign up </a>
+                        <a className="signUp" onClick={handleShow} style={{color: '#48846F'}}> Sign up </a>
                         now!
                     </div>
                 </div>
-
+                
 
 
 

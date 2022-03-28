@@ -215,8 +215,8 @@ export default function Items({ appToken }) {
                 console.log('Error getting fake data: ' + error);
             })
 
-            //delete borrows
-            //delete transactions
+        //delete borrows
+        //delete transactions
     }
 
     function handlerUpdate(item) {
@@ -258,40 +258,102 @@ export default function Items({ appToken }) {
                 alert("fail Edit")
             })
     }
+    const [showText, setShowText] = useState(false)
+    const [currentIndex, setCurrentIndex] = useState(-1)
+
+    const [showText2, setShowText2] = useState(false)
+    const [currentIndex2, setCurrentIndex2] = useState(-1)
+
+    function over(e, index) {
+        e.target.style.opacity = 0.8;
+        e.target.style.backgroundColor = 'black';
+
+        setShowText(true)
+        setCurrentIndex(index)
 
 
+    }
+    function out(e, index) {
+        e.target.style.opacity = 1;
+        e.target.style.backgroundColor = '';
+        setShowText(false)
+        setCurrentIndex(index)
 
+
+    }
+
+    function overAvailableItem(e, index) {
+        e.target.style.opacity = 0.8;
+        e.target.style.backgroundColor = 'black';
+
+        setShowText2(true)
+        setCurrentIndex2(index)
+
+
+    }
+    function outAvailableItem(e, index) {
+        e.target.style.opacity = 1;
+        e.target.style.backgroundColor = '';
+        setShowText2(false)
+        setCurrentIndex2(index)
+
+
+    }
+
+    //     <Hover onHover={<div> Show this on hover </div>}>
+    //     <div> Show on no hover </div>
+    // </Hover>
     const renderPendingItems = pendingItems.map((item, i) => {
         return (
-            <div className='box-card2' key={i}>
-                <div className='upper'>
-                    <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                    </img>
-                    <div>
-                        {item.itemID.name}
-                    </div>
-                    <div>
-                        Borrower:{item.borrowerID}
-                    </div>
-                    <div>
-                        Duration:{item.borrowDuration}
-                    </div>
+            <div style={{ position: 'relative', marginLeft: 20 }} key={i}>
+
+                <div className='box-card' style={{ backgroundColor: '', position: 'absolute', zIndex: 4 }} onMouseEnter={e => { over(e, i) }}
+                    onMouseLeave={e => { out(e, i) }}
+                >
+                    {showText && currentIndex == i &&
+                        <div style={{ position: 'absolute', zIndex: 5, left: '50%', marginLeft: '-20%', top: '50%', marginTop: '-25%' }}>
+                            <Button variant="info" style={{ width: '100%', display: 'block' }} onClick={() => handlerAccept(item)}>Accept</Button>
+                            <div style={{ height: '20px' }} />
+                            <Button variant="danger" style={{ width: '100%', display: 'block' }}
+                                onClick={() => handlerDecline(item)}
+                            >Decline</Button>
+
+                        </div>
+
+                    }
+
 
                 </div>
-                <div className="lower">
+                <div className='box-card' >
+                    <div className='upper'>
+                        <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                        </img>
+                        <div>
+                            {item.itemID.name}
+                        </div>
+                        <div>
+                            Borrower:{item.borrowerID}
+                        </div>
+                        <div>
+                            Duration:{item.borrowDuration}
+                        </div>
+
+                    </div>
+                    {/* <div className="lower">
                     <div>
                         <Button variant="info" style={{ width: '50%' }} onClick={() => handlerAccept(item)}>Accept</Button>
                         <Button variant="danger" style={{ width: '50%' }} onClick={() => handlerDecline(item)}>Decline</Button>
                     </div>
 
-                </div>
+                </div> */}
 
+                </div>
             </div>
         )
     })
     const renderLendingItems = lendingItems.map((item, i) => {
         return (
-            <div className='box-card2' key={i}>
+            <div className='box-card' key={i}>
                 <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                 </img>
                 <div>
@@ -310,30 +372,53 @@ export default function Items({ appToken }) {
 
     const renderAvailableItems = availableItems.map((item, i) => {
         return (
-            <div className='box-card3' key={i}>
-                <div className='upper'>
-                    <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
-                    </img>
-                    <div>
-                        {item.name}
-                    </div>
-                    <div>
-                        Location: {item.location}
-                    </div>
-                    <div>
-                        Availability: {item.avaliable + ''}
-                    </div>
+            <div style={{ position: 'relative', marginLeft: 20 }} key={i}>
+
+                <div className='box-card' style={{ backgroundColor: '', position: 'absolute', zIndex: 4 }} onMouseEnter={e => { overAvailableItem(e, i) }}
+                    onMouseLeave={e => { outAvailableItem(e, i) }}
+                >
+                    {showText2 && currentIndex2 == i &&
+                        <div style={{ position: 'absolute', zIndex: 5, left: '50%', marginLeft: '-20%', top: '50%', marginTop: '-25%' }}>
+                            <Button variant="info" style={{ width: '100%', display: 'block' }} onClick={() => handlerUpdate(item)}>Edit</Button>
+                            <div style={{ height: '20px' }} />
+                            <Button variant="danger" style={{ width: '100%', display: 'block' }}
+                                onClick={() => handlerDelete(item)}
+                            >Delete</Button>
+
+                        </div>
+
+                    }
+
 
                 </div>
 
-                <div className="lower">
+                <div className='box-card' key={i}>
+
+                    <div className='upper'>
+                        <img src={item.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
+                        </img>
+                        <div>
+                            {item.name}
+                        </div>
+                        <div>
+                            Location: {item.location}
+                        </div>
+                        <div>
+                            Availability: {item.avaliable + ''}
+                        </div>
+
+                    </div>
+
+                    {/* <div className="lower">
                     <div>
                         <Button variant="info" style={{ width: '50%' }} onClick={() => handlerUpdate(item)}>Edit</Button>
                         <Button variant="danger" style={{ width: '50%' }} onClick={() => handlerDelete(item)}>Delete</Button>
                     </div>
 
+                </div> */}
                 </div>
             </div>
+
 
 
         )
@@ -342,7 +427,7 @@ export default function Items({ appToken }) {
 
     const renderWaitingBorrow = waitBorrowItems.map((item, i) => {
         return (
-            <div className='box-card2' key={i}>
+            <div className='box-card' key={i} style={{ fontSize: 'small', height: 320, width: 230 }}>
                 <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                 </img>
                 <div>
@@ -363,7 +448,7 @@ export default function Items({ appToken }) {
 
     const renderBorrowing = borrowingItems.map((item, i) => {
         return (
-            <div className='box-card2' key={i}>
+            <div className='box-card' key={i}>
                 <div className='upper'>
                     <img src={item.itemID.imageURL} className='box-image' style={{ objectFit: 'cover' }}>
                     </img>
@@ -393,10 +478,10 @@ export default function Items({ appToken }) {
 
 
     return (
-        <div>
+        <div style={{ zIndex: 3, position: 'absolute', width: '100%' }}>
             {isLoading &&
                 <>
-                    <Navbar bg="light" variant="light">
+                    <Navbar bg="light" variant="light" style={{ height: 60, opacity: 0.9 }}>
                         <Container>
                             <Navbar.Brand style={{ display: 'flex' }}>
                                 {lend ? (<>
@@ -420,26 +505,42 @@ export default function Items({ appToken }) {
                     </Navbar>
 
 
-                    <div className="box">
-                        <div className="box-1" style={{ display: 'flex', flexWrap: 'wrap', width: '93%', margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
+                    <div style={{ backgroundColor: '#FFFFFF', position: 'absolute', left: '50%', marginLeft: '-35%' ,zIndex: 1,   opacity: 0.95, height: '80vh',width: '70%', marginTop: '2%', overflowY: 'scroll', borderRadius: 10}}>
+                        <div className="box-1" style={{ margin: 'auto', marginTop: '2%', marginBottom: '2%' }}>
 
                             {lend && pendingItems.length != 0 &&
-                                <>
-                                    <h3>Pending Items</h3>
-                                    {(renderPendingItems)}
-                                </>
+                                <div>
+                                    <h3 style={{ marginBottom: 15, marginTop: 15, marginLeft: 22 }}>Pending Items</h3>
+                                    <div className='example' style={{ display: 'flex', overflowX: 'scroll' }}>
+
+                                        {(renderPendingItems)}
+                                        {/* {(renderPendingItems)}
+                                        {(renderPendingItems)} */}
+
+                                    </div>
+                                </div>
+
                             }
                             {lend && lendingItems.length != 0 &&
-                                <>
-                                    <h3>Lending Items</h3>
-                                    {(renderLendingItems)}
-                                </>
+                                <div>
+                                    <h3 style={{ marginBottom: 15, marginTop: 15,  marginLeft: 22}}>Lending Items</h3>
+
+                                    <div className='example' style={{ display: 'flex', overflowX: 'scroll' }}>
+
+                                        {(renderLendingItems)}
+
+                                    </div>
+                                </div>
                             }
                             {lend && availableItems.length != 0 &&
-                                <>
-                                    <h3>Available Items</h3>
-                                    {(renderAvailableItems)}
-                                </>
+                                <div >
+                                    <h3 style={{ marginBottom: 15, marginTop: 15,  marginLeft: 22 }}>Available Items</h3>
+                                    <div className='example' style={{ display: 'flex', overflowX: 'scroll' }}>
+
+                                        {(renderAvailableItems)}
+
+                                    </div>
+                                </div>
                             }
                             {lend && pendingItems.length == 0 && lendingItems.length == 0 && availableItems.length == 0 &&
                                 <>
@@ -450,20 +551,30 @@ export default function Items({ appToken }) {
 
 
                             {!lend && waitBorrowItems.length != 0 &&
-                                <>
-                                    <h3>Pending Items</h3>
-                                    {(renderWaitingBorrow)}
-                                </>
+                                <div>
+                                    <h3 style={{ marginBottom: 15, marginTop: 15,marginLeft: 22 }}>Pending Items</h3>
+
+                                    <div className='example' style={{ display: 'flex', overflowX: 'scroll' }}>
+
+                                        {(renderWaitingBorrow)}
+
+                                    </div>
+                                </div>
                             }
                             {!lend && borrowingItems.length != 0 &&
-                                <>
-                                    <h3>Borrowing Items</h3>
-                                    {(renderBorrowing)}
-                                </>
+                                <div>
+                                    <h3 style={{ marginBottom: 15, marginTop: 15, marginLeft: 22 }}>Borrowing Items</h3>
+
+                                    <div className='example' style={{ display: 'flex', overflowX: 'scroll' }}>
+
+                                        {(renderBorrowing)}
+
+                                    </div>
+                                </div>
                             }
                             {!lend && borrowingItems.length == 0 && waitBorrowItems.length == 0 &&
                                 <>
-                                    <h3>No Borrowed Items in the record</h3>
+                                    <h3 >No Borrowed Items in the record</h3>
                                 </>
                             }
 

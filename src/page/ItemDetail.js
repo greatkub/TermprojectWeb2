@@ -81,7 +81,7 @@ export default function ItemDetail({ appToken, appId }) {
     return (
         <div>
             {isLoading &&
-                <div className="box" style={{ backgroundColor: '#FFFFFF' }}>
+                <div className="box" style={{ backgroundColor: '#FFFFFF',zIndex: 3, position: 'absolute', left: '50%', marginLeft: '-37.5%', top: '10%', opacity: 0.95}}>
                     <Container className="box-header">
                         <label className="items">
                             BORROW ITEM
